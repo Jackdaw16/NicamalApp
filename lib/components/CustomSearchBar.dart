@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+String textA;
 class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({Key key}) : super(key: key);
 
@@ -35,6 +36,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             ]
         ),
         child: TextField(
+          onChanged: (text) {
+            setState(() {
+              textA = text;
+            });
+          },
           textInputAction: TextInputAction.send,
           decoration: InputDecoration (
             border: OutlineInputBorder (

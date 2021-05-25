@@ -41,4 +41,22 @@ class Services extends IServices {
       throw Exception('Failed to connect with server');
     }
   }
+
+  @override
+  Future<List<PublicationsResponseForList>> getPublicationsWithFilters(int page, String text) async {
+    var uriParsed = Uri.parse(urlDevServer + "publication/filter?pageNumber=" + page.toString() +
+        "&pageSize=6&TextForSearch=" + text);
+    final response = await new http.Client().get(uriParsed);
+
+    if (response.statusCode == 200) {
+      print(response.body);
+
+      Iterable iterable = json.decode(response.body);
+      List<PublicationsResponseForList> publications = iterable.map((model) => PublicationsResponseForList.fromJson(model)).toList();
+
+      return publications;
+    } else {
+      throw Exception('Failed to connect with server');
+    }
+  }
 }
