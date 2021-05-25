@@ -7,7 +7,7 @@ class PublicationsResponseForList {
   var gender;
   var personality;
   var createdAt;
-  var udpatedAt;
+  var updatedAt;
   UserForPublication user;
 
   PublicationsResponseForList(
@@ -15,20 +15,19 @@ class PublicationsResponseForList {
       this.name,
       this.image,
       this.gender,
-      this.personality,
       this.createdAt,
-      this.udpatedAt,
+      this.updatedAt,
       this.user});
 
-  factory PublicationsResponseForList.fromJson(Map<String, dynamic> json) {
+  factory PublicationsResponseForList.fromJson(Map json) {
     return PublicationsResponseForList(
         id: json['id'],
         name: json['name'],
         image: json['image'],
-        gender: json['personality'],
+        gender: json['gender'],
         createdAt: json['createdAt'],
-        udpatedAt: json['updatedAt'],
-        user: json['user']);
+        updatedAt: json['updatedAt'],
+        user: UserForPublication.fromJson(json['user']));
   }
 }
 

@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(NicamalIcons.grupo_124,
+                            Icon(NicamalIcons.missing,
                                 color: _currentTab == 1
                                     ? greenAccent
                                     : greenPrimary),

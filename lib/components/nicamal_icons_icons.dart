@@ -11,7 +11,11 @@
 ///      fonts:
 ///       - asset: fonts/NicamalIcons.ttf
 ///
-///
+/// 
+/// * Elusive, Copyright (C) 2013 by Aristeides Stathopoulos
+///         Author:    Aristeides Stathopoulos
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://aristeides.com/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,8 +25,8 @@ class NicamalIcons {
   static const _kFontFam = 'NicamalIcons';
   static const String _kFontPkg = null;
 
-  static const IconData adop =
-      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData grupo_124 =
-      IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData male = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData female = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData adop = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData missing = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
