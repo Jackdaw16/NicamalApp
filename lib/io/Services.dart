@@ -44,7 +44,7 @@ class Services extends IServices {
 
   @override
   Future<List<PublicationsResponseForList>> getPublicationsWithFilters(int page, String text) async {
-    var uriParsed = Uri.parse(urlDevServer + "publication/filter?pageNumber=" + page.toString() +
+    var uriParsed = Uri.parse(urlDevServer + "publication/filters?pageNumber=" + page.toString() +
         "&pageSize=6&TextForSearch=" + text);
     final response = await new http.Client().get(uriParsed);
 

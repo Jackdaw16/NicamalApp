@@ -24,7 +24,7 @@ Widget ListItems(BuildContext context, int index, String url, String name,
         children: [
           Container(
               width: width,
-              height: height * 0.14,
+              height: 110,
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(

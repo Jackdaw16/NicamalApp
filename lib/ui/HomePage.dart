@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+    bool keyboardIsUp = MediaQuery.of(context).viewInsets.bottom != 0.0;
 
     return Scaffold(
       body: PageStorage(
@@ -156,7 +157,7 @@ class _HomePageState extends State<HomePage> {
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: keyboardIsUp ? null : FloatingActionButton(
       
         onPressed: () {
           setState(() {

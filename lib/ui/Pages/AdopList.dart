@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nicamal_app/components/CustomSearchBar.dart';
 import 'package:nicamal_app/io/Services.dart';
@@ -20,8 +21,16 @@ class _AdopListState extends State<AdopList> {
   Services services = Services();
   int page;
   PaginationViewType paginationViewType;
+  PaginationViewType paginationViewTypeFilter;
   GlobalKey<PaginationViewState> key;
+  GlobalKey<PaginationViewState> keyFilter;
   String filter;
+
+  void filterChange(newString) {
+    setState(() {
+      filter = newString;
+    });
+  }
 
   @override
   void initState() {
@@ -33,20 +42,23 @@ class _AdopListState extends State<AdopList> {
   }
 
   Future<List<PublicationsResponseForList>> fetchPublications(int offset) async {
-    var page = (offset / 6).round() + 1;
+    print(offset.toString());
+    var page = (offset / 6).ceil() + 1;
+    print(page);
 
-    return await services.getPublications(page);
+    return await services.getPublications(page.toInt());
   }
 
   Future<List<PublicationsResponseForList>> fetchPublicationsWithFilter(int offset) async {
-    var page = (offset / 6).round() + 1;
+    print(offset.toString());
+    var page = (offset / 6).ceil() + 1;
+    print(page);
 
-    return await services.getPublicationsWithFilters(page, filter);
+    return await services.getPublicationsWithFilters(page.toInt(), filter);
   }
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -59,76 +71,14 @@ class _AdopListState extends State<AdopList> {
         ),
         child: Column (
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-              top: 36,
-                bottom: 8,
-                left: 16,
-                right: 16,
-              ),
-            child: Container(
-              width: double.infinity,
-              height: 40,
-              decoration: BoxDecoration (
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.16),
-                      spreadRadius: 5,
-                      blurRadius: 6,
-                      offset: Offset(0, 3),
-                    )
-                  ]
-                ),
-              child: TextField(
-                onChanged: (text) {
-                  setState(() {
-                    filter = text;
-                  });
-                },
-                textInputAction: TextInputAction.send,
-                decoration: InputDecoration (
-                    border: OutlineInputBorder (
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.search, color: greenAccent),
-                    hintText: 'Search animals',
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.filter_list),
-                      onPressed: () => {print('pressed')},
-                      color: greenAccent,
-                    ),
-                    contentPadding: EdgeInsets.only(
-                      bottom: 40 / 2,  // HERE THE IMPORTANT PART
-                    )
-
-                ),
-              ),
+            CustomSearchBar(filterChange: filterChange),
+            Visibility(
+              visible: (filter == null || filter.isEmpty || filter.length > 3) ? false : true,
+              child: TypeList(context, fetchPublications, fetchPublicationsWithFilter,paginationViewTypeFilter, keyFilter, filter)
             ),
-          ),
-            Expanded (
-              child: PaginationView<PublicationsResponseForList> (
-                key: key,
-                paginationViewType: paginationViewType,
-                pullToRefresh: true,
-                pageFetch: (filter == null) ? fetchPublications : fetchPublicationsWithFilter,
-                itemBuilder: (BuildContext context, PublicationsResponseForList publication, int index) =>
-                    ListItems(context, index, publication.image, publication.name, publication.gender, publication.user.province, publication.user.country),
-                onError: (dynamic error) => Center (
-                  child: Text(error.toString()),
-                ),
-                onEmpty: Center(
-                  child: Text('Sorry! This is empty'),
-                ),
-                bottomLoader: Center(
-                  child: CustomProgressIndicator(),
-                ),
-                initialLoader: Center(
-                  child: CustomProgressIndicator(),
-                ),
-              ),
+            Visibility(
+              visible: (filter == null || filter.isEmpty || filter.length > 3) ? true : false,
+                child: TypeList(context, fetchPublications, fetchPublicationsWithFilter,paginationViewType, key, filter)
             )
 
           ],
@@ -136,4 +86,57 @@ class _AdopListState extends State<AdopList> {
       ),
     );
   }
+}
+
+Widget TypeList(BuildContext context, Future<List<PublicationsResponseForList>> fetch(int offset), Future<List<PublicationsResponseForList>> fetchFilter(int offset),PaginationViewType paginationViewType, GlobalKey<PaginationViewState> key, String filter) {
+  if (filter != null){
+    return Expanded (
+      child: PaginationView<PublicationsResponseForList> (
+        key: key,
+        paginationViewType: paginationViewType,
+        pullToRefresh: true,
+        pageFetch: fetchFilter,
+        itemBuilder: (BuildContext context, PublicationsResponseForList publication, int index) =>
+            ListItems(context, index, publication.image, publication.name, publication.gender, publication.user.province, publication.user.country),
+        onError: (dynamic error) => Center (
+          child: Text(error.toString()),
+        ),
+        onEmpty: Center(
+          child: Text('Sorry! This is empty'),
+        ),
+        bottomLoader: Center(
+          child: CustomProgressIndicator(),
+        ),
+        initialLoader: Center(
+          child: CustomProgressIndicator(),
+        ),
+      ),
+    );
+  } else {
+    return Expanded (
+      child: PaginationView<PublicationsResponseForList> (
+        key: key,
+        paginationViewType: paginationViewType,
+        pullToRefresh: true,
+        pageFetch: fetch,
+        itemBuilder: (BuildContext context, PublicationsResponseForList publication, int index) =>
+            ListItems(context, index, publication.image, publication.name, publication.gender, publication.user.province, publication.user.country),
+        onError: (dynamic error) => Center (
+          child: Text(error.toString()),
+        ),
+        onEmpty: Center(
+          child: Text('Sorry! This is empty'),
+        ),
+        bottomLoader: Center(
+          child: CustomProgressIndicator(),
+        ),
+        initialLoader: Center(
+          child: CustomProgressIndicator(),
+        ),
+      ),
+    );
+  }
+  return Container(
+    child: Text('Empy'),
+  );
 }
