@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:http/retry.dart';
 import 'package:nicamal_app/io/IServices.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
 import 'package:http/http.dart' as http;
@@ -26,37 +29,49 @@ class Services extends IServices {
 
   @override
   Future<List<PublicationsResponseForList>> getPublications(int page) async {
+    var client = http.Client();
     var uriParsed = Uri.parse(urlDevServer + "publication?pageNumber=" + page.toString() +
         "&pageSize=6");
-    final response = await new http.Client().get(uriParsed);
+    try {
+      final response = await client.get(uriParsed).timeout(Duration(seconds: 5), onTimeout: () {
+        throw TimeoutException('The connection has timed out, Please try again!');
+      });
 
-    if (response.statusCode == 200) {
       print(response.body);
 
       Iterable iterable = json.decode(response.body);
       List<PublicationsResponseForList> publications = iterable.map((model) => PublicationsResponseForList.fromJson(model)).toList();
 
       return publications;
-    } else {
-      throw Exception('Failed to connect with server');
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
   @override
   Future<List<PublicationsResponseForList>> getPublicationsWithFilters(int page, String text) async {
-    var uriParsed = Uri.parse(urlDevServer + "publication/filters?pageNumber=" + page.toString() +
+    var client = http.Client();
+     var uriParsed = Uri.parse(urlDevServer + "publication/filters?pageNumber=" + page.toString() +
         "&pageSize=6&TextForSearch=" + text);
-    final response = await new http.Client().get(uriParsed);
+    try {
+      final response = await client.get(uriParsed).timeout(Duration(seconds: 15), onTimeout: () {
+        throw TimeoutException('The connection has timed out, Please try again!');
+      });
 
-    if (response.statusCode == 200) {
       print(response.body);
 
       Iterable iterable = json.decode(response.body);
       List<PublicationsResponseForList> publications = iterable.map((model) => PublicationsResponseForList.fromJson(model)).toList();
 
       return publications;
-    } else {
-      throw Exception('Failed to connect with server');
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
     }
+
+
   }
 }

@@ -13,9 +13,7 @@ Widget ListItems(BuildContext context, int index, String url, String name,
 
   return GestureDetector(
     onTap: () {
-      final snackBar = SnackBar(content: Text('Tap'));
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print('ItemPressed');
     },
     child: Padding(
       padding: EdgeInsets.all(18.0),
@@ -55,6 +53,7 @@ Widget ListItems(BuildContext context, int index, String url, String name,
                               Text(
                                 name,
                                 style: TextStyle(
+                                    color: greenAccent,
                                     fontFamily: 'Quicksand',
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16.0),
@@ -66,7 +65,6 @@ Widget ListItems(BuildContext context, int index, String url, String name,
                             ],
                           ),
                         ),
-
                         menu(context),
                       ],
                     ),
@@ -159,8 +157,7 @@ Widget menu(BuildContext context) {
             value: choice,
           );
         }).toList();
-      }
-  );
+      });
 }
 
 void handleClick(String value) {

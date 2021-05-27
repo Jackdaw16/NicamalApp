@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nicamal_app/components/CustomSearchBar.dart';
 import 'package:nicamal_app/io/Services.dart';
+import 'package:nicamal_app/ui/HomePage.dart';
 import 'package:pagination_view/pagination_view.dart';
 
 import '../../components/CustomProgressIndicator.dart';
@@ -32,6 +33,12 @@ class _AdopListState extends State<AdopList> {
     });
   }
 
+  /*void refresh() {
+    setState(() {
+      key = GlobalKey<PaginationViewState>();
+    });
+  }*/
+
   @override
   void initState() {
     // TODO: implement initState
@@ -60,30 +67,20 @@ class _AdopListState extends State<AdopList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/background.jpg'),
-            fit: BoxFit.cover
-            )
-        ),
-        child: Column (
-          children: [
-            CustomSearchBar(filterChange: filterChange),
-            Visibility(
+      body: Column (
+        children: [
+          CustomSearchBar(filterChange: filterChange),
+          Visibility(
               visible: (filter == null || filter.isEmpty || filter.length > 3) ? false : true,
               child: TypeList(context, fetchPublications, fetchPublicationsWithFilter,paginationViewTypeFilter, keyFilter, filter)
-            ),
-            Visibility(
+          ),
+          Visibility(
               visible: (filter == null || filter.isEmpty || filter.length > 3) ? true : false,
-                child: TypeList(context, fetchPublications, fetchPublicationsWithFilter,paginationViewType, key, filter)
-            )
+              child: TypeList(context, fetchPublications, fetchPublicationsWithFilter,paginationViewTypeFilter, keyFilter, filter)
+          )
 
-          ],
-        )
-      ),
+        ],
+      )
     );
   }
 }
@@ -122,13 +119,22 @@ Widget TypeList(BuildContext context, Future<List<PublicationsResponseForList>> 
         itemBuilder: (BuildContext context, PublicationsResponseForList publication, int index) =>
             ListItems(context, index, publication.image, publication.name, publication.gender, publication.user.province, publication.user.country),
         onError: (dynamic error) => Center (
-          child: Text(error.toString()),
+          child: MaterialButton(
+            onPressed: () {
+              print('hello');
+            },
+            child: Text('Reset'),
+          ),
         ),
         onEmpty: Center(
-          child: Text('Sorry! This is empty'),
+          child: MaterialButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         bottomLoader: Center(
-          child: CustomProgressIndicator(),
+          child: CircularProgressIndicator(color: greenAccent),
         ),
         initialLoader: Center(
           child: CustomProgressIndicator(),
@@ -136,7 +142,6 @@ Widget TypeList(BuildContext context, Future<List<PublicationsResponseForList>> 
       ),
     );
   }
-  return Container(
-    child: Text('Empy'),
-  );
 }
+
+
