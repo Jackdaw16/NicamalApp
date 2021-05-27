@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
 
 import 'nicamal_icons_icons.dart';
 
-Widget ListItems(BuildContext context, int index, String url, String name,
-    String gender, String userProvince, String userCountry) {
+Widget ListItems(BuildContext context, int index, PublicationsResponseForList publication) {
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
   var width = MediaQuery.of(context).size.width;
@@ -51,7 +51,7 @@ Widget ListItems(BuildContext context, int index, String url, String name,
                           child: Row(
                             children: [
                               Text(
-                                name,
+                                publication.name,
                                 style: TextStyle(
                                     color: greenAccent,
                                     fontFamily: 'Quicksand',
@@ -60,7 +60,7 @@ Widget ListItems(BuildContext context, int index, String url, String name,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8),
-                                child: IconSelect(context, gender),
+                                child: IconSelect(context, publication.gender),
                               )
                             ],
                           ),
@@ -82,7 +82,7 @@ Widget ListItems(BuildContext context, int index, String url, String name,
                             Padding(
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
-                                userCountry + ', ' + userProvince,
+                                publication.user.country + ', ' + publication.user.province,
                                 style: TextStyle(
                                     fontFamily: 'Quicksand',
                                     fontWeight: FontWeight.normal,
@@ -103,7 +103,7 @@ Widget ListItems(BuildContext context, int index, String url, String name,
                 height: 130.0,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(url), fit: BoxFit.cover),
+                        image: NetworkImage(publication.image), fit: BoxFit.cover),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(16.0),
                       topRight: Radius.circular(16.0),
