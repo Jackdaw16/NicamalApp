@@ -34,7 +34,7 @@ class Services extends IServices {
         "&pageSize=6");
     try {
       final response = await client.get(uriParsed).timeout(Duration(seconds: 5), onTimeout: () {
-        throw TimeoutException('The connection has timed out, Please try again!');
+        throw TimeoutException('The connection has timed out, check your internet connection and try again!');
       });
 
       print(response.body);

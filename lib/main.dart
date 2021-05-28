@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:nicamal_app/ui/DetailScreen.dart';
 import 'package:nicamal_app/ui/SplashScreen.dart';
+import 'package:flutter/services.dart';
 
-import 'ui/HomePage.dart';
+import 'ui/HomeScreen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -15,6 +17,11 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.light
+  ));
+  
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
 }
@@ -28,7 +35,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder> {
         '/': (BuildContext context) => SplashScreen(),
-        '/home': (BuildContext context) => HomePage()
+        '/home': (BuildContext context) => HomePage(),
+        '/publication/detail': (BuildContext context) => DetailScreen()
       }
     );
   }

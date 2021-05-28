@@ -63,7 +63,7 @@ class PublicationDetail {
       this.updatedAt,
       this.user});
 
-  factory PublicationDetail.fromJson(Map<String, dynamic> json) {
+  factory PublicationDetail.fromJson(Map json) {
     return PublicationDetail(
       id: json['id'],
       name: json['name'],
@@ -78,7 +78,7 @@ class PublicationDetail {
       birthDate: json['birthDate'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
-      user: json['user']
+      user: UserForPublicationDetail.fromJson(json['user'])
     );
   }
 }

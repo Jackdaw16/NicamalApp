@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/io/Services.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
+import 'package:nicamal_app/ui/HomeScreen.dart';
 import 'package:pagination_view/pagination_view.dart';
 
 import 'CustomProgressIndicator.dart';
@@ -86,15 +88,20 @@ class _ListOfAdopsState extends State<ListOfAdops> {
                           PublicationsResponseForList publication, int index) =>
                       ListItems(context, index, publication),
                   onError: (dynamic error) => Center(
-                    child: MaterialButton(
-                      onPressed: () {
-                        refresh();
-                      },
-                      child: Text('Reset'),
-                    ),
-                  ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          informationWarning(greenPrimary, error.toString()),
+                          TextButton(
+                            onPressed: () {
+                              refresh();
+                            },
+                            child: Text('Reset', style: TextStyle(fontFamily: 'Quicksand', color: greenAccent)),
+                          ),
+                        ],
+                      )),
                   onEmpty: Center(
-                    child: Text('Sorry! This is empty'),
+                    child: informationEmpty(),
                   ),
                   bottomLoader: Center(
                     child: CustomProgressIndicator(),
@@ -118,15 +125,20 @@ class _ListOfAdopsState extends State<ListOfAdops> {
                           PublicationsResponseForList publication, int index) =>
                       ListItems(context, index, publication),
                   onError: (dynamic error) => Center(
-                    child: MaterialButton(
-                      onPressed: () {
-                        refresh();
-                      },
-                      child: Text('Reset'),
-                    ),
-                  ),
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      informationWarning(greenPrimary, error.toString()),
+                      TextButton(
+                        onPressed: () {
+                          refresh();
+                        },
+                        child: Text('Reset', style: TextStyle(fontFamily: 'Quicksand', color: greenAccent)),
+                      ),
+                    ],
+                  )),
                   onEmpty: Center(
-                    child: Text('Sorry! This is empty'),
+                    child: informationEmpty(),
                   ),
                   bottomLoader: Center(
                     child: CustomProgressIndicator(),
@@ -140,4 +152,39 @@ class _ListOfAdopsState extends State<ListOfAdops> {
       ),
     );
   }
+}
+
+Widget informationWarning(Color greenPrimary, String textError) {
+  return Column(
+    children: [
+      Icon(Icons.info_outline_rounded, color: greenPrimary, size: 60),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        child: Text(
+          textError,
+          style: TextStyle(
+            fontFamily: 'Quicksand',
+          ),
+        ),
+      )
+    ],
+  );
+}
+
+Widget informationEmpty() {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Icon(Icons.info_outline_rounded, color: greenPrimary, size: 60),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        child: Text(
+          'Sorry, we have not found what you are looking for',
+          style: TextStyle(
+            fontFamily: 'Quicksand',
+          ),
+        ),
+      )
+    ],
+  );
 }

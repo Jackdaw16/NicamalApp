@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
+import 'package:nicamal_app/ui/DetailScreen.dart';
 
 import 'nicamal_icons_icons.dart';
 
@@ -13,7 +14,7 @@ Widget ListItems(BuildContext context, int index, PublicationsResponseForList pu
 
   return GestureDetector(
     onTap: () {
-      print('ItemPressed');
+      Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreen(id: publication.id,)));
     },
     child: Padding(
       padding: EdgeInsets.all(18.0),
@@ -98,27 +99,30 @@ Widget ListItems(BuildContext context, int index, PublicationsResponseForList pu
           Stack(children: [
             Padding(
               padding: EdgeInsets.only(left: 10),
-              child: Container(
-                width: 130.0,
-                height: 130.0,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(publication.image), fit: BoxFit.cover),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16.0),
-                      topRight: Radius.circular(16.0),
-                      bottomLeft: Radius.circular(16.0),
-                      bottomRight: Radius.circular(16.0),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.16),
-                        spreadRadius: 5,
-                        blurRadius: 6,
-                        offset: Offset(0, 3),
-                      )
-                    ]),
-              ),
+              child: Hero(
+                tag: 'image' + publication.id.toString(),
+                child: Container(
+                  width: 130.0,
+                  height: 130.0,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(publication.image), fit: BoxFit.cover),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.0),
+                        topRight: Radius.circular(16.0),
+                        bottomLeft: Radius.circular(16.0),
+                        bottomRight: Radius.circular(16.0),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.16),
+                          spreadRadius: 5,
+                          blurRadius: 6,
+                          offset: Offset(0, 3),
+                        )
+                      ]),
+                ),
+              )
             )
           ]),
         ],
@@ -153,7 +157,7 @@ Widget menu(BuildContext context) {
       itemBuilder: (BuildContext context) {
         return {'Add favorite', 'Report'}.map((String choice) {
           return PopupMenuItem<String>(
-            child: Text(choice),
+            child: (choice == 'Report') ? Text(choice, style: TextStyle(color: Colors.red)) : Text(choice),
             value: choice,
           );
         }).toList();
