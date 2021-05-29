@@ -4,9 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
 import 'package:nicamal_app/ui/DetailScreen.dart';
 
+import 'MaleAndFemaleIconComponent.dart';
 import 'nicamal_icons_icons.dart';
 
-Widget ListItems(BuildContext context, int index, PublicationsResponseForList publication) {
+Widget ListItemsComponent(BuildContext context, int index, PublicationsResponseForList publication) {
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
   var width = MediaQuery.of(context).size.width;
@@ -61,7 +62,7 @@ Widget ListItems(BuildContext context, int index, PublicationsResponseForList pu
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8),
-                                child: IconSelect(context, publication.gender),
+                                child: iconSelect(context, publication.gender, 14),
                               )
                             ],
                           ),
@@ -128,25 +129,6 @@ Widget ListItems(BuildContext context, int index, PublicationsResponseForList pu
         ],
       ),
     ),
-  );
-}
-
-Widget IconSelect(BuildContext context, String gender) {
-  if (gender == 'male') {
-    return Icon(
-      NicamalIcons.male,
-      size: 13,
-    );
-  } else if (gender == 'female') {
-    return Icon(
-      NicamalIcons.female,
-      size: 14,
-    );
-  }
-
-  return Icon(
-    NicamalIcons.male,
-    size: 16,
   );
 }
 

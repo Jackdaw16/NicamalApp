@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nicamal_app/components/CustomSearchBar.dart';
-import 'package:nicamal_app/components/ListOfAdops.dart';
+import 'package:nicamal_app/components/CustomSearchBarComponent.dart';
+import 'package:nicamal_app/components/ListOfAdopsComponent.dart';
 import 'package:nicamal_app/io/Services.dart';
 import 'package:nicamal_app/ui/HomeScreen.dart';
 import 'package:pagination_view/pagination_view.dart';
 
-import '../../components/CustomProgressIndicator.dart';
-import '../../components/CustomProgressIndicator.dart';
-import '../../components/ListItem.dart';
+import '../../components/CustomProgressIndicatorComponent.dart';
+import '../../components/CustomProgressIndicatorComponent.dart';
+import '../../components/ListItemComponent.dart';
 import '../../models/viewModels/PublicationViewModel.dart';
 import '../../models/viewModels/PublicationViewModel.dart';
 
@@ -34,7 +34,7 @@ class _AdopListState extends State<AdopList> {
       backgroundColor: greyBackground,
       body: Column (
         children: [
-          ListOfAdops()
+          ListOfAdopsComponent()
         ],
       )
     );

@@ -2,16 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class CustomSearchBar extends StatefulWidget {
+class CustomSearchBarComponent extends StatefulWidget {
   final filterChange;
 
-  const CustomSearchBar({Key key, this.filterChange}) : super(key: key);
+  const CustomSearchBarComponent({Key key, this.filterChange}) : super(key: key);
 
   @override
-  _CustomSearchBarState createState() => _CustomSearchBarState();
+  _CustomSearchBarComponentState createState() => _CustomSearchBarComponentState();
 }
 
-class _CustomSearchBarState extends State<CustomSearchBar> {
+class _CustomSearchBarComponentState extends State<CustomSearchBarComponent> {
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
   String textFilter;

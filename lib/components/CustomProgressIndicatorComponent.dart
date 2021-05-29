@@ -2,14 +2,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
 
-class CustomProgressIndicator extends StatefulWidget {
+class CustomProgressIndicatorComponent extends StatefulWidget {
 
   @override
-  _CustomProgressIndicator createState() => _CustomProgressIndicator();
+  _CustomProgressIndicatorComponent createState() => _CustomProgressIndicatorComponent();
 
 }
 
-class _CustomProgressIndicator extends State<CustomProgressIndicator> {
+class _CustomProgressIndicatorComponent extends State<CustomProgressIndicatorComponent> {
 
   Artboard _riveArtboard;
   RiveAnimationController _controller;

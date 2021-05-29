@@ -6,18 +6,18 @@ import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
 import 'package:nicamal_app/ui/HomeScreen.dart';
 import 'package:pagination_view/pagination_view.dart';
 
-import 'CustomProgressIndicator.dart';
-import 'CustomSearchBar.dart';
-import 'ListItem.dart';
+import 'CustomProgressIndicatorComponent.dart';
+import 'CustomSearchBarComponent.dart';
+import 'ListItemComponent.dart';
 
-class ListOfAdops extends StatefulWidget {
-  const ListOfAdops({Key key}) : super(key: key);
+class ListOfAdopsComponent extends StatefulWidget {
+  const ListOfAdopsComponent({Key key}) : super(key: key);
 
   @override
-  _ListOfAdopsState createState() => _ListOfAdopsState();
+  _ListOfAdopsComponentState createState() => _ListOfAdopsComponentState();
 }
 
-class _ListOfAdopsState extends State<ListOfAdops> {
+class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
   int page;
   String filter;
   Services services = Services();
@@ -73,7 +73,7 @@ class _ListOfAdopsState extends State<ListOfAdops> {
     return Expanded(
       child: Column(
         children: [
-          CustomSearchBar(filterChange: filterChange),
+          CustomSearchBarComponent(filterChange: filterChange),
           Visibility(
               visible: (filter == null || filter.isEmpty || filter.length > 3)
                   ? false
@@ -86,7 +86,7 @@ class _ListOfAdopsState extends State<ListOfAdops> {
                   pageFetch: fetchPublicationsWithFilter,
                   itemBuilder: (BuildContext context,
                           PublicationsResponseForList publication, int index) =>
-                      ListItems(context, index, publication),
+                      ListItemsComponent(context, index, publication),
                   onError: (dynamic error) => Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -104,10 +104,10 @@ class _ListOfAdopsState extends State<ListOfAdops> {
                     child: informationEmpty(),
                   ),
                   bottomLoader: Center(
-                    child: CustomProgressIndicator(),
+                    child: CustomProgressIndicatorComponent(),
                   ),
                   initialLoader: Center(
-                    child: CustomProgressIndicator(),
+                    child: CustomProgressIndicatorComponent(),
                   ),
                 ),
               )),
@@ -123,7 +123,7 @@ class _ListOfAdopsState extends State<ListOfAdops> {
                   pageFetch: fetchPublications,
                   itemBuilder: (BuildContext context,
                           PublicationsResponseForList publication, int index) =>
-                      ListItems(context, index, publication),
+                      ListItemsComponent(context, index, publication),
                   onError: (dynamic error) => Center(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -141,10 +141,10 @@ class _ListOfAdopsState extends State<ListOfAdops> {
                     child: informationEmpty(),
                   ),
                   bottomLoader: Center(
-                    child: CustomProgressIndicator(),
+                    child: CustomProgressIndicatorComponent(),
                   ),
                   initialLoader: Center(
-                    child: CustomProgressIndicator(),
+                    child: CustomProgressIndicatorComponent(),
                   ),
                 ),
               ))
