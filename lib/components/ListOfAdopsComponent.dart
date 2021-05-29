@@ -47,6 +47,7 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
   void filterChange(newString) {
     setState(() {
       filter = newString;
+      keyFilter = GlobalKey<PaginationViewState>();
     });
   }
 
@@ -75,7 +76,7 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
         children: [
           CustomSearchBarComponent(filterChange: filterChange),
           Visibility(
-              visible: (filter == null || filter.isEmpty || filter.length > 3)
+              visible: (filter == null || filter.isEmpty)
                   ? false
                   : true,
               child: Expanded(
@@ -112,7 +113,7 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
                 ),
               )),
           Visibility(
-              visible: (filter == null || filter.isEmpty || filter.length > 3)
+              visible: (filter == null || filter.isEmpty)
                   ? true
                   : false,
               child: Expanded(

@@ -52,13 +52,18 @@ Widget ListItemsComponent(BuildContext context, int index, PublicationsResponseF
                           padding: EdgeInsets.only(left: 160),
                           child: Row(
                             children: [
-                              Text(
-                                publication.name,
-                                style: TextStyle(
-                                    color: greenAccent,
-                                    fontFamily: 'Quicksand',
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16.0),
+                              SizedBox(
+                                width: (publication.name.toString().length <= 4)  ? 40 : 55,
+                                child: Text(
+                                  publication.name.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                      color: greenAccent,
+                                      fontFamily: 'Quicksand',
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16.0),
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8),
@@ -69,6 +74,26 @@ Widget ListItemsComponent(BuildContext context, int index, PublicationsResponseF
                         ),
                         menu(context),
                       ],
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 160),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 120,
+                              child: Text(
+                                publication.species.toString(),
+                                softWrap: false,
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                    fontFamily: 'Quicksand',
+                                    color: Colors.grey.shade600
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                     ),
                     Padding(
                         padding: EdgeInsets.only(left: 160),

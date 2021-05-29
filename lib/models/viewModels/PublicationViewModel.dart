@@ -4,6 +4,7 @@ class PublicationsResponseForList {
   var id;
   var name;
   var image;
+  var species;
   var gender;
   var personality;
   var createdAt;
@@ -14,6 +15,7 @@ class PublicationsResponseForList {
       {this.id,
       this.name,
       this.image,
+      this.species,
       this.gender,
       this.createdAt,
       this.updatedAt,
@@ -24,6 +26,7 @@ class PublicationsResponseForList {
         id: json['id'],
         name: json['name'],
         image: json['image'],
+        species: json['species'],
         gender: json['gender'],
         createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
