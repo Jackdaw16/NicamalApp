@@ -16,6 +16,7 @@ class PublicationsResponseForList {
       this.name,
       this.image,
       this.species,
+      this.personality,
       this.gender,
       this.createdAt,
       this.updatedAt,
@@ -27,6 +28,7 @@ class PublicationsResponseForList {
         name: json['name'],
         image: json['image'],
         species: json['species'],
+        personality: json['personality'],
         gender: json['gender'],
         createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
@@ -76,11 +78,11 @@ class PublicationDetail {
       gender: json['gender'],
       personality: json['personality'],
       history: json['history'],
-      observation: json['observation'],
+      observation: json['observations'],
       isUrgent: json['isUrgent'],
       birthDate: json['birthDate'],
       createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
+      updatedAt: json['updateAt'],
       user: UserForPublicationDetail.fromJson(json['user'])
     );
   }
