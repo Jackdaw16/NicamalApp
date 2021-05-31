@@ -52,7 +52,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: 32, horizontal: 16),
+                              vertical: 48, horizontal: 16),
                           child: Row(
                             children: [
                               CircleAvatar(
@@ -73,7 +73,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           alignment: Alignment.bottomCenter,
                           children: [
                             Container(
-                              height: height * 0.6,
+                              height: 500,
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 24),
@@ -299,7 +299,7 @@ class _DetailScreenState extends State<DetailScreen> {
               ];
             }
 
-            return Container(
+            return SingleChildScrollView(
               child: Column(
                 children: children,
               ),
