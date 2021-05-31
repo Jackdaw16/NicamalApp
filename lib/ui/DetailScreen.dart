@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:nicamal_app/components/MaleAndFemaleIconComponent.dart';
 import 'package:nicamal_app/io/Services.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
+import 'package:photo_view/photo_view.dart';
 
 class DetailScreen extends StatefulWidget {
   final int id;
@@ -19,7 +20,9 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   final Color greyBackground = Color.fromARGB(255, 245, 245, 245);
   Services services = Services();
-  String formatDate(DateTime date) => new DateFormat("MMMM d, yyyy", 'es').format(date);
+
+  String formatDate(DateTime date) =>
+      new DateFormat("MMMM d, yyyy", 'es').format(date);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,26 @@ class _DetailScreenState extends State<DetailScreen> {
                                       image: NetworkImage(snapshot.data.image),
                                       fit: BoxFit.cover),
                                   borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(100)))),
+                                      bottomLeft: Radius.circular(100))),
+                            child: GestureDetector (
+                              onTap: () async {
+                                await showGeneralDialog(
+                                    transitionBuilder: (context, a1, a2, widget) {
+                                      return Transform.scale(
+                                        scale: a1.value,
+                                        child: Opacity(opacity: a1.value, child: ImageDialog(urlImage: snapshot.data.image.toString())),
+                                      );
+                                    },
+                                    transitionDuration: Duration(milliseconds: 200),
+                                    context: context,
+                                    barrierColor: Colors.black.withOpacity(0.5),
+                                    barrierDismissible: true,
+                                    barrierLabel: '',
+                                    pageBuilder: (context, animation1, animation2) {}
+                                );
+                              },
+                            ),
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -217,41 +239,46 @@ class _DetailScreenState extends State<DetailScreen> {
                                 offset: Offset(0, 3),
                               )
                             ]),
-                        child: Padding (
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 24),
                           child: Column(
                             children: [
                               Row(
                                 children: [
-                                  Container (
+                                  Container(
                                     decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.16),
-                                          spreadRadius: 2,
-                                          blurRadius: 6,
-                                        )
-                                      ]
-                                    ),
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.grey.withOpacity(0.16),
+                                            spreadRadius: 2,
+                                            blurRadius: 6,
+                                          )
+                                        ]),
                                     child: CircleAvatar(
                                       radius: 25,
-                                      backgroundImage: NetworkImage(snapshot.data.user.image.toString()),
+                                      backgroundImage: NetworkImage(
+                                          snapshot.data.user.image.toString()),
                                       backgroundColor: Colors.transparent,
                                     ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 16),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(snapshot.data.user.name.toString(),
+                                        Text(
+                                          snapshot.data.user.name.toString(),
                                           style: TextStyle(
-                                            fontFamily: 'Quicksand',
-                                            fontWeight: FontWeight.bold
-                                          ),
+                                              fontFamily: 'Quicksand',
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        Text(formatDate(DateTime.parse(snapshot.data.updatedAt)),
+                                        Text(
+                                          formatDate(DateTime.parse(
+                                              snapshot.data.updatedAt)),
                                           style: TextStyle(
                                             fontFamily: 'Quicksand',
                                           ),
@@ -261,20 +288,21 @@ class _DetailScreenState extends State<DetailScreen> {
                                   )
                                 ],
                               ),
-
                               Row(
                                 children: [
                                   Expanded(
                                       child: Padding(
-                                        padding: EdgeInsets.only(top: 16),
-                                        child: Text(
-                                          snapshot.data.history.toString() + '. '
-                                              + snapshot.data.personality.toString() + '. '
-                                              + snapshot.data.observation.toString(),
-                                          softWrap: true,
-                                          style: TextStyle(fontFamily: 'Quicksand'),),
-                                      )
-                                  )
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: Text(
+                                      snapshot.data.history.toString() +
+                                          '. ' +
+                                          snapshot.data.personality.toString() +
+                                          '. ' +
+                                          snapshot.data.observation.toString(),
+                                      softWrap: true,
+                                      style: TextStyle(fontFamily: 'Quicksand'),
+                                    ),
+                                  ))
                                 ],
                               )
                             ],
@@ -305,6 +333,39 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
             );
           }),
+    );
+  }
+}
+
+class ImageDialog extends StatefulWidget {
+  final String urlImage;
+  const ImageDialog({Key key, this.urlImage}) : super(key: key);
+
+  @override
+  _ImageDialogState createState() => _ImageDialogState();
+}
+
+class _ImageDialogState extends State<ImageDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Container (
+        height: 300,
+        child: PhotoView (
+          imageProvider: NetworkImage(widget.urlImage),
+          loadingBuilder: (context, progress) => Center (
+            child: CircularProgressIndicator(),
+          ),
+          maxScale: PhotoViewComputedScale.covered * 1.8,
+          minScale: PhotoViewComputedScale.contained * 0.8,
+          initialScale: PhotoViewComputedScale.contained * 1.1,
+          backgroundDecoration: BoxDecoration(
+              color: Colors.transparent
+          ),
+        ),
+      )
     );
   }
 }
