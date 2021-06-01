@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:nicamal_app/components/MaleAndFemaleIconComponent.dart';
+import 'package:nicamal_app/components/PopUpMenu.dart';
 import 'package:nicamal_app/io/Services.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
 import 'package:photo_view/photo_view.dart';
@@ -76,6 +77,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           padding: EdgeInsets.symmetric(
                               vertical: 48, horizontal: 16),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CircleAvatar(
                                 radius: 20,
@@ -87,6 +89,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                     },
                                     icon: Icon(Icons.arrow_back),
                                     color: Colors.green),
+                              ),
+                              
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor:
+                                    Color.fromRGBO(254, 254, 254, 0.4),
+                                child: popUpMenu(context),
                               )
                             ],
                           ),
@@ -94,9 +103,13 @@ class _DetailScreenState extends State<DetailScreen> {
                         Stack(
                           alignment: Alignment.bottomCenter,
                           children: [
-                            Container(
-                              height: 500,
+                            AspectRatio(
+                                aspectRatio: 1 / 1.3,
+                              child: Container(
+                                height: 300,
+                              ),
                             ),
+
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 24),
                               child: Container(

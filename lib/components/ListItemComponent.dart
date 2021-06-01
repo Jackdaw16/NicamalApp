@@ -5,6 +5,7 @@ import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
 import 'package:nicamal_app/ui/DetailScreen.dart';
 
 import 'MaleAndFemaleIconComponent.dart';
+import 'PopUpMenu.dart';
 import 'nicamal_icons_icons.dart';
 
 Widget ListItemsComponent(
@@ -86,11 +87,11 @@ Widget ListItemsComponent(
                                 )
                               ],
                             ),
-                            menu(context),
+                            popUpMenu(context),
                           ],
                         ),
                         Padding(
-                            padding: EdgeInsets.only(top: 4),
+                          padding: EdgeInsets.only(top: 4),
                           child: Column(
                             children: [
                               Row(
@@ -99,7 +100,7 @@ Widget ListItemsComponent(
                                     child: Text(
                                       publication.species.toString(),
                                       softWrap: false,
-                                      overflow: TextOverflow.fade,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: 'Quicksand',
@@ -111,7 +112,6 @@ Widget ListItemsComponent(
                             ],
                           ),
                         ),
-
                         Row(
                           children: [
                             Padding(
@@ -121,19 +121,22 @@ Widget ListItemsComponent(
                                 size: 13,
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 8),
-                              child: Text(
-                                publication.user.country +
-                                    ', ' +
-                                    publication.user.province,
-                                style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 12,
-                                    color: Colors.grey.shade500),
-                              ),
-                            )
+                            Expanded(
+                                child: Padding(
+                                    padding: EdgeInsets.only(top: 8),
+                                    child: Text(
+                                      publication.user.country +
+                                          ', ' +
+                                          publication.user.province,
+                                      softWrap: false,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontFamily: 'Quicksand',
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 12,
+                                          color: Colors.grey.shade500),
+                                    ),
+                                  ))
                           ],
                         )
                       ],
@@ -174,33 +177,4 @@ Widget ListItemsComponent(
       ),
     ),
   );
-}
-
-Widget menu(BuildContext context) {
-  return Container(
-      width: 20,
-      height: 20,
-      child: PopupMenuButton(
-          iconSize: 16,
-          padding: EdgeInsets.only(right: 16),
-          onSelected: handleClick,
-          itemBuilder: (BuildContext context) {
-            return {'Add favorite', 'Report'}.map((String choice) {
-              return PopupMenuItem<String>(
-                child: (choice == 'Report')
-                    ? Text(choice, style: TextStyle(color: Colors.red))
-                    : Text(choice),
-                value: choice,
-              );
-            }).toList();
-          }));
-}
-
-void handleClick(String value) {
-  switch (value) {
-    case 'Add favorite':
-      break;
-    case 'Report':
-      break;
-  }
 }

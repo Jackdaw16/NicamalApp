@@ -73,107 +73,135 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        MaterialButton(
-                          minWidth: width * 0.20,
-                          onPressed: () {
-                            setState(() {
-                              _currentScreen = AdopList();
-                              _currentTab = 0;
-                            });
-                          },
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(NicamalIcons.adop,
-                                    color: _currentTab == 0
-                                        ? greenAccent
-                                        : greenPrimary),
-                                Text(
-                                  'Adop',
-                                  style: TextStyle(
-                                      color: _currentTab == 0
-                                          ? greenAccent
-                                          : greenPrimary),
-                                )
-                              ]),
+                        Container(
+                          width: width * 0.20,
+                            child: MaterialButton(
+                              onPressed: () {
+                                setState(() {
+                                  _currentScreen = AdopList();
+                                  _currentTab = 0;
+                                });
+                              },
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(NicamalIcons.adop,
+                                        color: _currentTab == 0
+                                            ? greenAccent
+                                            : greenPrimary),
+                                    Text(
+                                      'Adop',
+                                      softWrap: false,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontFamily: 'Quicksand',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: _currentTab == 0
+                                              ? greenAccent
+                                              : greenPrimary),
+                                    )
+                                  ]),
+                            ),
                         ),
-                        MaterialButton(
-                          minWidth: width * 0.20,
-                          onPressed: () {
-                            setState(() {
-                              _currentScreen = DisappearanceList();
-                              _currentTab = 1;
-                            });
-                          },
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(NicamalIcons.missing,
-                                    color: _currentTab == 1
-                                        ? greenAccent
-                                        : greenPrimary),
-                                Text(
-                                  'Missing',
-                                  style: TextStyle(
+                        Container(
+                          width: width * 0.20,
+                          child: MaterialButton(
+                            onPressed: () {
+                              setState(() {
+                                _currentScreen = DisappearanceList();
+                                _currentTab = 1;
+                              });
+                            },
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(NicamalIcons.missing,
                                       color: _currentTab == 1
                                           ? greenAccent
                                           : greenPrimary),
-                                )
-                              ]),
-                        ),
+                                  Text(
+                                    'Missing',
+                                    softWrap: false,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontFamily: 'Quicksand',
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                        color: _currentTab == 1
+                                            ? greenAccent
+                                            : greenPrimary),
+                                  )
+                                ]),
+                          ),
+                        )
                       ],
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        MaterialButton(
-                          minWidth: width * 0.20,
-                          onPressed: () {
-                            setState(() {
-                              _currentScreen = ShelterList();
-                              _currentTab = 3;
-                            });
-                          },
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.store_mall_directory,
-                                    color: _currentTab == 3
-                                        ? greenAccent
-                                        : greenPrimary),
-                                Text(
-                                  'Shelter',
-                                  style: TextStyle(
+                        Container(
+                          width: width * 0.20,
+                          child: MaterialButton(
+                            onPressed: () {
+                              setState(() {
+                                _currentScreen = ShelterList();
+                                _currentTab = 3;
+                              });
+                            },
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.store_mall_directory,
                                       color: _currentTab == 3
                                           ? greenAccent
                                           : greenPrimary),
-                                )
-                              ]),
+                                  Text(
+                                    'Shelter',
+                                    softWrap: false,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontFamily: 'Quicksand',
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                        color: _currentTab == 3
+                                            ? greenAccent
+                                            : greenPrimary),
+                                  )
+                                ]),
+                          ),
                         ),
-                        MaterialButton(
-                          minWidth: width * 0.20,
-                          onPressed: () {
-                            setState(() {
-                              _currentScreen = SelectLogin();
-                              _currentTab = 4;
-                            });
-                          },
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.account_circle,
-                                    color: _currentTab == 4
-                                        ? greenAccent
-                                        : greenPrimary),
-                                Text(
-                                  'Account',
-                                  style: TextStyle(
+                        Container(
+                          width: width * 0.20,
+                          child: MaterialButton(
+                            onPressed: () {
+                              setState(() {
+                                _currentScreen = SelectLogin();
+                                _currentTab = 4;
+                              });
+                            },
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.account_circle,
                                       color: _currentTab == 4
                                           ? greenAccent
                                           : greenPrimary),
-                                )
-                              ]),
-                        ),
+                                  Text(
+                                    'Account',
+                                    softWrap: false,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontFamily: 'Quicksand',
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                        color: _currentTab == 4
+                                            ? greenAccent
+                                            : greenPrimary),
+                                  )
+                                ]),
+                          ),
+                        )
                       ],
                     )
                   ],
