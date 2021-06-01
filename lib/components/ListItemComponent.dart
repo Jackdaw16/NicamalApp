@@ -87,7 +87,7 @@ Widget ListItemsComponent(
                                 )
                               ],
                             ),
-                            popUpMenu(context),
+                            popUpMenu(context, Colors.black),
                           ],
                         ),
                         Padding(

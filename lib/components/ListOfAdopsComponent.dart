@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nicamal_app/components/WarningMessagge.dart';
 import 'package:nicamal_app/io/Services.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
 import 'package:nicamal_app/ui/HomeScreen.dart';
@@ -153,23 +154,6 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
       ),
     );
   }
-}
-
-Widget informationWarning(Color greenPrimary, String textError) {
-  return Column(
-    children: [
-      Icon(Icons.info_outline_rounded, color: greenPrimary, size: 60),
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        child: Text(
-          textError,
-          style: TextStyle(
-            fontFamily: 'Quicksand',
-          ),
-        ),
-      )
-    ],
-  );
 }
 
 Widget informationEmpty() {

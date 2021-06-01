@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-Widget popUpMenu(BuildContext context) {
+Widget popUpMenu(BuildContext context, Color color) {
   return Container(
       width: 20,
       height: 20,
       child: PopupMenuButton(
           iconSize: 16,
+          icon: Icon(Icons.more_vert, color: color),
           padding: EdgeInsets.zero,
           onSelected: handleClick,
           itemBuilder: (BuildContext context) {
