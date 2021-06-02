@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nicamal_app/components/WarningEmptyMessagge.dart';
 import 'package:nicamal_app/components/WarningMessagge.dart';
 import 'package:nicamal_app/io/Services.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
@@ -77,9 +78,7 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
         children: [
           CustomSearchBarComponent(filterChange: filterChange),
           Visibility(
-              visible: (filter == null || filter.isEmpty)
-                  ? false
-                  : true,
+              visible: (filter == null || filter.isEmpty) ? false : true,
               child: Expanded(
                 child: PaginationView<PublicationsResponseForList>(
                   key: keyFilter,
@@ -88,22 +87,33 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
                   pageFetch: fetchPublicationsWithFilter,
                   itemBuilder: (BuildContext context,
                           PublicationsResponseForList publication, int index) =>
-                      ListItemsComponent(context, index, publication),
+                      ListItemsComponent(
+                    id: publication.id,
+                    name: publication.name,
+                    image: publication.image,
+                    gender: publication.gender,
+                    species: publication.species,
+                    country: publication.user.country,
+                    province: publication.user.province,
+                        isMissing: false,
+                  ),
                   onError: (dynamic error) => Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          informationWarning(greenPrimary, error.toString()),
-                          TextButton(
-                            onPressed: () {
-                              refresh();
-                            },
-                            child: Text('Reset', style: TextStyle(fontFamily: 'Quicksand', color: greenAccent)),
-                          ),
-                        ],
-                      )),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      informationWarning(greenPrimary, error.toString()),
+                      TextButton(
+                        onPressed: () {
+                          refresh();
+                        },
+                        child: Text('Reset',
+                            style: TextStyle(
+                                fontFamily: 'Quicksand', color: greenAccent)),
+                      ),
+                    ],
+                  )),
                   onEmpty: Center(
-                    child: informationEmpty(),
+                    child: informationEmpty(greenPrimary),
                   ),
                   bottomLoader: Center(
                     child: CustomProgressIndicatorComponent(),
@@ -114,9 +124,7 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
                 ),
               )),
           Visibility(
-              visible: (filter == null || filter.isEmpty)
-                  ? true
-                  : false,
+              visible: (filter == null || filter.isEmpty) ? true : false,
               child: Expanded(
                 child: PaginationView<PublicationsResponseForList>(
                   key: key,
@@ -125,7 +133,16 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
                   pageFetch: fetchPublications,
                   itemBuilder: (BuildContext context,
                           PublicationsResponseForList publication, int index) =>
-                      ListItemsComponent(context, index, publication),
+                      ListItemsComponent(
+                        id: publication.id,
+                        name: publication.name,
+                        image: publication.image,
+                        gender: publication.gender,
+                        species: publication.species,
+                        country: publication.user.country,
+                        province: publication.user.province,
+                        isMissing: false,
+                      ),
                   onError: (dynamic error) => Center(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -135,12 +152,14 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
                         onPressed: () {
                           refresh();
                         },
-                        child: Text('Reset', style: TextStyle(fontFamily: 'Quicksand', color: greenAccent)),
+                        child: Text('Reset',
+                            style: TextStyle(
+                                fontFamily: 'Quicksand', color: greenAccent)),
                       ),
                     ],
                   )),
                   onEmpty: Center(
-                    child: informationEmpty(),
+                    child: informationEmpty(greenPrimary),
                   ),
                   bottomLoader: Center(
                     child: CustomProgressIndicatorComponent(),
@@ -154,22 +173,4 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
       ),
     );
   }
-}
-
-Widget informationEmpty() {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Icon(Icons.info_outline_rounded, color: greenPrimary, size: 60),
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        child: Text(
-          'Sorry, we have not found what you are looking for',
-          style: TextStyle(
-            fontFamily: 'Quicksand',
-          ),
-        ),
-      )
-    ],
-  );
 }

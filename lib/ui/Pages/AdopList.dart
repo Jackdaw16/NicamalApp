@@ -1,16 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nicamal_app/components/CustomSearchBarComponent.dart';
 import 'package:nicamal_app/components/ListOfAdopsComponent.dart';
-import 'package:nicamal_app/io/Services.dart';
-import 'package:nicamal_app/ui/HomeScreen.dart';
-import 'package:pagination_view/pagination_view.dart';
-
-import '../../components/CustomProgressIndicatorComponent.dart';
-import '../../components/CustomProgressIndicatorComponent.dart';
-import '../../components/ListItemComponent.dart';
-import '../../models/viewModels/PublicationViewModel.dart';
-import '../../models/viewModels/PublicationViewModel.dart';
 
 class AdopList extends StatefulWidget {
   @override

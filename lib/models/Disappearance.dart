@@ -7,5 +7,6 @@ class Disappearance {
   var country;
   var province;
   var lastSeen;
+  var userName;
   var createdAt;
 }
