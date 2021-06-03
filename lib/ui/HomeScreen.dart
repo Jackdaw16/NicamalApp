@@ -7,6 +7,7 @@ import 'package:nicamal_app/ui/Pages/DisappearanceList.dart';
 import 'package:nicamal_app/ui/Pages/PublishDisappearance.dart';
 import 'package:nicamal_app/ui/Pages/SelectLogin.dart';
 import 'package:nicamal_app/ui/Pages/ShelterList.dart';
+import 'package:nicamal_app/ui/PublishDisappearanceScreen.dart';
 
 final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
 final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
@@ -18,6 +19,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentTab = 0;
+  PageController _myPage = PageController(initialPage: 0);
+
   final List<Widget> screens = [
     AdopList(),
     DisappearanceList(),
@@ -25,9 +28,6 @@ class _HomePageState extends State<HomePage> {
     ShelterList(),
     SelectLogin()
   ];
-
-  final PageStorageBucket _bucket = PageStorageBucket();
-  Widget _currentScreen = AdopList();
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +57,12 @@ class _HomePageState extends State<HomePage> {
 
     return WillPopScope(
         child: Scaffold(
-          body: PageStorage(
-            child: _currentScreen,
-            bucket: _bucket,
+          body: PageView(
+            controller: _myPage,
+            children: screens,
+            onPageChanged: (index) {
+              print('Page changes to index  $index');
+            },
           ),
           bottomNavigationBar: BottomAppBar(
               clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -78,8 +81,8 @@ class _HomePageState extends State<HomePage> {
                             child: MaterialButton(
                               onPressed: () {
                                 setState(() {
-                                  _currentScreen = AdopList();
                                   _currentTab = 0;
+                                  _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
                                 });
                               },
                               child: Column(
@@ -109,8 +112,8 @@ class _HomePageState extends State<HomePage> {
                           child: MaterialButton(
                             onPressed: () {
                               setState(() {
-                                _currentScreen = DisappearanceList();
                                 _currentTab = 1;
+                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
                               });
                             },
                             child: Column(
@@ -145,8 +148,8 @@ class _HomePageState extends State<HomePage> {
                           child: MaterialButton(
                             onPressed: () {
                               setState(() {
-                                _currentScreen = ShelterList();
                                 _currentTab = 3;
+                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
                               });
                             },
                             child: Column(
@@ -176,8 +179,8 @@ class _HomePageState extends State<HomePage> {
                           child: MaterialButton(
                             onPressed: () {
                               setState(() {
-                                _currentScreen = SelectLogin();
                                 _currentTab = 4;
+                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
                               });
                             },
                             child: Column(
@@ -206,15 +209,13 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 ),
-              )),
+              )
+          ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: keyboardIsUp ? null : FloatingActionButton(
-
             onPressed: () {
-              setState(() {
-                _currentScreen = PublishDisappearance();
-                _currentTab = 2;
-              });
+              Navigator.push(context,  MaterialPageRoute(
+                  builder: (context) => PublishDisappearanceScreen()));
             },
             child: Icon(Icons.add),
             backgroundColor: Color.fromARGB(255, 105, 198, 133),

@@ -20,21 +20,21 @@ class _ListDisappearancesComponentState extends State<ListDisappearancesComponen
   Services services = Services();
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
-  PaginationViewType paginationViewType;
-  GlobalKey<PaginationViewState> key;
+  PaginationViewType paginationViewTypeDisappearances;
+  GlobalKey<PaginationViewState> keyDisappearances;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     page = -1;
-    paginationViewType = PaginationViewType.listView;
-    key = GlobalKey<PaginationViewState>();
+    paginationViewTypeDisappearances = PaginationViewType.listView;
+    keyDisappearances = GlobalKey<PaginationViewState>();
   }
 
   void refresh() {
     setState(() {
-      key = GlobalKey<PaginationViewState>();
+      keyDisappearances = GlobalKey<PaginationViewState>();
     });
   }
 
@@ -54,8 +54,8 @@ class _ListDisappearancesComponentState extends State<ListDisappearancesComponen
           children: [
         Expanded(
         child: PaginationView<DisappearanceListResponse>(
-          key: key,
-          paginationViewType: paginationViewType,
+          key: keyDisappearances,
+          paginationViewType: paginationViewTypeDisappearances,
           pullToRefresh: true,
           pageFetch: fetchPublications,
           itemBuilder: (BuildContext context,
