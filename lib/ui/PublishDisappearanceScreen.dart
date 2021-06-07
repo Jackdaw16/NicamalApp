@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nicamal_app/io/GetImage.dart';
-import 'package:nicamal_app/ui/HomeScreen.dart';
 
 class PublishDisappearanceScreen extends StatefulWidget {
   const PublishDisappearanceScreen({Key key}) : super(key: key);
@@ -16,123 +15,177 @@ class PublishDisappearanceScreen extends StatefulWidget {
 class _PublishDisappearanceScreenState extends State<PublishDisappearanceScreen> {
   String _image;
   GetImage getImage = GetImage();
+  String countryValue = "";
+  String stateValue = "";
+  String cityValue = "";
+  String address = "";
+  final Color greyBackground = Color.fromARGB(255, 245, 245, 245);
+  final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
+  final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              if (_image == null)
-                Container(
-                  width: double.infinity,
-                  height: height * 0.5,
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(100))
-                  ),
-                  child: GestureDetector(
-                    onTap: () {},
-                  ),
-                ),
-              if (_image != null)
-                Container(
-                  width: double.infinity,
-                  height: height * 0.5,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: FileImage(File(_image)),
-                          fit: BoxFit.cover),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(100))),
-                  child: GestureDetector(
-                    onTap: () {},
-                  ),
-                ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 48, horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor:
-                      Color.fromRGBO(254, 254, 254, 0.6),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context, true);
-                          },
-                          icon: Icon(Icons.arrow_back),
-                          color: Colors.green),
+      backgroundColor: greyBackground,
+      body: SingleChildScrollView (
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                if (_image == null)
+                  Container(
+                    width: double.infinity,
+                    height: height * 0.5,
+                    decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(100))
                     ),
-                    if (_image != null)
+                    child: GestureDetector(
+                      onTap: () {},
+                    ),
+                  ),
+                if (_image != null)
+                  Container(
+                    width: double.infinity,
+                    height: height * 0.5,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: FileImage(File(_image)),
+                            fit: BoxFit.cover),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(100))),
+                    child: GestureDetector(
+                      onTap: () {},
+                    ),
+                  ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 48, horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       CircleAvatar(
                         radius: 20,
                         backgroundColor:
                         Color.fromRGBO(254, 254, 254, 0.6),
                         child: IconButton(
                             onPressed: () {
-                              setState(() {
-                                _image = null;
-                              });
+                              Navigator.pop(context, true);
                             },
-                            icon: Icon(Icons.close),
+                            icon: Icon(Icons.arrow_back),
                             color: Colors.green),
                       ),
-                  ],
-                ),
-              ),
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: Container(),
-                  ),
-
-                  Container (
-                    width: double.infinity,
-                    child: Row (
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      if (_image != null)
                         CircleAvatar(
-                          radius: 25,
+                          radius: 20,
                           backgroundColor:
-                          Color.fromRGBO(254, 254, 254, 1),
-                          child: IconButton(onPressed: () async {
-                            PickedFile image = await getImage.getImageFromGallery();
-                            setState(() {
-                              _image = image.path;
-                            });
-                            print(_image);
-                          }, icon: Icon(Icons.photo_library, color: greenAccent,)),
+                          Color.fromRGBO(254, 254, 254, 0.6),
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _image = null;
+                                });
+                              },
+                              icon: Icon(Icons.close),
+                              color: Colors.green),
                         ),
-                        SizedBox(width: 20,),
-                        CircleAvatar(
+                    ],
+                  ),
+                ),
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      height: height * 0.53,
+                    ),
+
+                    Container (
+                      width: double.infinity,
+                      child: Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
                             radius: 25,
                             backgroundColor:
                             Color.fromRGBO(254, 254, 254, 1),
                             child: IconButton(onPressed: () async {
-                              PickedFile image = await getImage.getImageFromCamera();
+                              PickedFile image = await getImage.getImageFromGallery();
                               setState(() {
                                 _image = image.path;
                               });
                               print(_image);
-                            }, icon: Icon(Icons.camera_alt, color: greenAccent,))
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              )
-            ],
+                            }, icon: Icon(Icons.photo_library, color: greenAccent,)),
+                          ),
+                          SizedBox(width: 20,),
+                          CircleAvatar(
+                              radius: 25,
+                              backgroundColor:
+                              Color.fromRGBO(254, 254, 254, 1),
+                              child: IconButton(onPressed: () async {
+                                PickedFile image = await getImage.getImageFromCamera();
+                                setState(() {
+                                  _image = image.path;
+                                });
+                                print(_image);
+                              }, icon: Icon(Icons.camera_alt, color: greenAccent,))
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.16),
+                        spreadRadius: 5,
+                        blurRadius: 6,
+                        offset: Offset(0, 3),
+                      )
+                    ]),
+                child: Column(
+                  children: [
+                    textFieldForForm('Name*', 1),
+                    textFieldForForm('Animal description*', null),
+                    textFieldForForm('Last Seen*', null),
+                  ],
+                ),
+              ),
+            )
+
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget textFieldForForm(String hintText, var maxLines) {
+    return Padding(
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+        child: TextField (
+          onChanged: (text) => {
+
+          },
+          decoration: InputDecoration (
+            labelText: hintText,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            labelStyle: TextStyle(fontFamily: 'Quicksand', color: greenAccent),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: greenAccent)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: greenPrimary, width: 2)),
+
           ),
-        ],
-      ),
+          maxLines: maxLines,
+        )
     );
   }
 }
