@@ -4,8 +4,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:nicamal_app/io/IServices.dart';
+import 'package:nicamal_app/models/Province.dart';
 import 'package:nicamal_app/models/viewModels/DisappearanceViewModel.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Services extends IServices {
   //Aqui cambiar por tu IP si cambias de maquina
@@ -117,6 +119,28 @@ class Services extends IServices {
       throw SocketException('You are not connected to internet');
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  @override
+  Future<List<Province>> getProvinces() async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "provinces";
+
+    try {
+      final response = await client.get(uriParsed)
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        return null;
+      });
+      Iterable iterable = json.decode(json.encode(response.data));
+      List<Province> provinces = iterable.map((model) => Province.fromJson(model)).toList();
+
+      return provinces;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      return null;
     }
   }
 }

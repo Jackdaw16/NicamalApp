@@ -30,6 +30,7 @@ dependencies:
   photo_view: ^0.11.1
   dio: ^4.0.0
   image_picker: ^0.8.0
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +59,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/nicamal_splashscreen.riv
+    - assets/nicamal_splashscreen_2.riv
     - assets/background.jpg
     - assets/nicamal-progressindicator.riv
 

@@ -131,7 +131,6 @@ class _PublishDisappearanceScreenState extends State<PublishDisappearanceScreen>
               )
             ],
           ),
-
         ],
       ),
     );
