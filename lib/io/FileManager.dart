@@ -34,17 +34,20 @@ class FileManager implements IFileManager {
     if (sharedPreferences.getStringList('provinces') == null) {
       return false;
     } else {
-      return sharedPreferences.getStringList('provinces').isEmpty;
+      return sharedPreferences.getStringList('provinces').isNotEmpty;
     }
   }
 
   @override
   Future<List<String>> getProvincesList() async {
     SharedPreferences sharedPreferences = await preferences;
+    print(await isPreferencesExist());
     if(await isPreferencesExist()) {
       return sharedPreferences.getStringList('provinces');
+    } else if(await isSharedPreferencesSaved()){
+      return sharedPreferences.getStringList('provinces');
     } else {
-      return await listConverted();
+      return await getProvincesList();
     }
   }
 
