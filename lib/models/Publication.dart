@@ -9,7 +9,7 @@ class Publication {
   var history;
   var observations;
   var isUrgent;
-  var birthDate;
+  var age;
   var createdAt;
   var updatedAt;
   var userID;

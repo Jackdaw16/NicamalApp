@@ -64,7 +64,6 @@ class _ListDisappearancesComponentState extends State<ListDisappearancesComponen
                 id: publication.id,
                 name: publication.name,
                 image: publication.image,
-                country: publication.country,
                 province: publication.province,
                 description: publication.description,
                 isMissing: true,

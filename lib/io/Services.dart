@@ -14,7 +14,7 @@ class Services extends IServices {
   final String urlDevServer = "https://192.168.1.136:5001/api/";
 
   @override
-  Future<PublicationDetail> getPublication(int id) async {
+  Future<PublicationDetail> getPublication(String id) async {
     var client = Dio();
     var uriParsed = urlDevServer + "publication/detail";
     try {
@@ -34,7 +34,7 @@ class Services extends IServices {
   }
 
   @override
-  Future<List<PublicationsResponseForList>> getPublications(int page) async {
+  Future<List<PublicationsList>> getPublications(int page) async {
     var client = Dio();
     var uriParsed = urlDevServer + "publication";
     try {
@@ -45,7 +45,7 @@ class Services extends IServices {
       });
 
       Iterable iterable = json.decode(json.encode(response.data));
-      List<PublicationsResponseForList> publications = iterable.map((model) => PublicationsResponseForList.fromJson(model)).toList();
+      List<PublicationsList> publications = iterable.map((model) => PublicationsList.fromJson(model)).toList();
 
       return publications;
 
@@ -57,7 +57,7 @@ class Services extends IServices {
   }
 
   @override
-  Future<List<PublicationsResponseForList>> getPublicationsWithFilters(int page, String text) async {
+  Future<List<PublicationsList>> getPublicationsWithFilters(int page, String text) async {
     var client = Dio();
      var uriParsed = urlDevServer + "publication/filters";
     try {
@@ -68,7 +68,7 @@ class Services extends IServices {
       });
 
       Iterable iterable = json.decode(json.encode(response.data));
-      List<PublicationsResponseForList> publications = iterable.map((model) => PublicationsResponseForList.fromJson(model)).toList();
+      List<PublicationsList> publications = iterable.map((model) => PublicationsList.fromJson(model)).toList();
 
       return publications;
 
@@ -80,7 +80,7 @@ class Services extends IServices {
   }
 
   @override
-  Future<DisappearanceDetail> getDisappearance(int id) async {
+  Future<DisappearanceDetail> getDisappearance(String id) async {
     var client = Dio();
     var uriParsed = urlDevServer + "disappearance/detail";
     try {
@@ -114,6 +114,39 @@ class Services extends IServices {
       List<DisappearanceListResponse> disappearances = iterable.map((model) => DisappearanceListResponse.fromJson(model)).toList();
 
       return disappearances;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+  @override
+  Future<DisappearanceDetail> createDisappearance(DisappearanceDetail disappearance) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "disappearance";
+
+    File file = File(disappearance.image);
+    String fileName = file.path.split('/').last;
+    print(file.path);
+
+    FormData formData = FormData.fromMap({
+      'Name': disappearance.name,
+      'Image': await MultipartFile.fromFile(file.path, filename: fileName),
+      'TelephoneContact': disappearance.telephoneContact,
+      'Description': disappearance.description,
+      'Country': disappearance.country,
+      'Province': disappearance.province,
+      'LastSeen': disappearance.lastSeen,
+      'UserName': disappearance.userName
+    });
+    try {
+      final response = await client.post(uriParsed,
+          data: formData).timeout(Duration(seconds: 5), onTimeout: () {
+        throw TimeoutException('The connection has timed out, check your internet connection and try again!');
+      });
+
+      return DisappearanceDetail.fromJson(jsonDecode(json.encode(response.data)));
 
     } on SocketException {
       throw SocketException('You are not connected to internet');

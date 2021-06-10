@@ -13,7 +13,7 @@ import 'package:nicamal_app/models/viewModels/DisappearanceViewModel.dart';
 import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
 
 class DetailScreen extends StatefulWidget {
-  final int id;
+  final String id;
   final bool isMissing;
 
   const DetailScreen({Key key, this.id, this.isMissing}) : super(key: key);
@@ -115,11 +115,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                     name: snapshot.data.name.toString(),
                                     specie: snapshot.data.species.toString(),
                                     weight: snapshot.data.weight.toString(),
-                                    age: '1 año',
+                                    age: snapshot.data.age.toString(),
                                     gender: snapshot.data.gender.toString(),
-                                    address: snapshot.data.user.country.toString() +
+                                    address: snapshot.data.user.province.toString() +
                                         ', ' +
-                                        snapshot.data.user.province.toString()),
+                                        snapshot.data.user.address.toString()),
                               ],
                             ),
 

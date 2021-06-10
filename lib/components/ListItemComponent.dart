@@ -9,16 +9,16 @@ import 'PopUpMenu.dart';
 import 'nicamal_icons_icons.dart';
 
 class ListItemsComponent extends StatefulWidget {
-  final int id;
+  final String id;
   final String name;
   final String image;
   final String gender;
   final String species;
-  final String country;
+  final String address;
   final String province;
   final String description;
   final bool isMissing;
-  const ListItemsComponent({Key key, this.id, this.name, this.image, this.gender, this.species, this.country, this.province, this.description, this.isMissing}) : super(key: key);
+  const ListItemsComponent({Key key, this.id, this.name, this.image, this.gender, this.species, this.address, this.province, this.description, this.isMissing}) : super(key: key);
 
   @override
   _ListItemsComponentState createState() => _ListItemsComponentState();
@@ -162,22 +162,38 @@ class _ListItemsComponentState extends State<ListItemsComponent> {
                                       size: 13,
                                     ),
                                   ),
-                                  Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(top: 8),
-                                        child: Text(
-                                          widget.country +
-                                              ', ' +
-                                              widget.province,
-                                          softWrap: false,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontFamily: 'Quicksand',
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 12,
-                                              color: Colors.grey.shade500),
-                                        ),
-                                      ))
+                                  if(widget.address != null)
+                                    Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8),
+                                          child: Text(
+                                            widget.province +
+                                                ', ' +
+                                                widget.address,
+                                            softWrap: false,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: 'Quicksand',
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 12,
+                                                color: Colors.grey.shade500),
+                                          ),
+                                        )),
+                                  if(widget.address == null)
+                                    Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8),
+                                          child: Text(
+                                            widget.province,
+                                            softWrap: false,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: 'Quicksand',
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 12,
+                                                color: Colors.grey.shade500),
+                                          ),
+                                        ))
                                 ],
                               )
                             ],

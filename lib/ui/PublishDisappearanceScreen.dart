@@ -4,21 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nicamal_app/io/GetImage.dart';
+import 'package:nicamal_app/io/Services.dart';
+import 'package:nicamal_app/models/viewModels/DisappearanceViewModel.dart';
 
 class PublishDisappearanceScreen extends StatefulWidget {
   const PublishDisappearanceScreen({Key key}) : super(key: key);
 
   @override
-  _PublishDisappearanceScreenState createState() => _PublishDisappearanceScreenState();
+  _PublishDisappearanceScreenState createState() =>
+      _PublishDisappearanceScreenState();
 }
 
-class _PublishDisappearanceScreenState extends State<PublishDisappearanceScreen> {
+class _PublishDisappearanceScreenState
+    extends State<PublishDisappearanceScreen> {
   String _image;
   GetImage getImage = GetImage();
-  String countryValue = "";
-  String stateValue = "";
-  String cityValue = "";
-  String address = "";
+  Services services = Services();
+  DisappearanceDetail disappearance = DisappearanceDetail();
   final Color greyBackground = Color.fromARGB(255, 245, 245, 245);
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
@@ -27,165 +29,258 @@ class _PublishDisappearanceScreenState extends State<PublishDisappearanceScreen>
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: greyBackground,
-      body: SingleChildScrollView (
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                if (_image == null)
-                  Container(
-                    width: double.infinity,
-                    height: height * 0.5,
-                    decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(100))
-                    ),
-                    child: GestureDetector(
-                      onTap: () {},
-                    ),
-                  ),
-                if (_image != null)
-                  Container(
-                    width: double.infinity,
-                    height: height * 0.5,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: FileImage(File(_image)),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(100))),
-                    child: GestureDetector(
-                      onTap: () {},
-                    ),
-                  ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 48, horizontal: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor:
-                        Color.fromRGBO(254, 254, 254, 0.6),
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context, true);
-                            },
-                            icon: Icon(Icons.arrow_back),
-                            color: Colors.green),
+        backgroundColor: greyBackground,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  if (_image == null)
+                    Container(
+                      width: double.infinity,
+                      height: height * 0.5,
+                      decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(100))),
+                      child: GestureDetector(
+                        onTap: () {},
                       ),
-                      if (_image != null)
+                    ),
+                  if (_image != null)
+                    Container(
+                      width: double.infinity,
+                      height: height * 0.5,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: FileImage(File(_image)),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(100))),
+                      child: GestureDetector(
+                        onTap: () {},
+                      ),
+                    ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 48, horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         CircleAvatar(
                           radius: 20,
-                          backgroundColor:
-                          Color.fromRGBO(254, 254, 254, 0.6),
+                          backgroundColor: Color.fromRGBO(254, 254, 254, 0.6),
                           child: IconButton(
                               onPressed: () {
-                                setState(() {
-                                  _image = null;
-                                });
+                                Navigator.pop(context, true);
                               },
-                              icon: Icon(Icons.close),
+                              icon: Icon(Icons.arrow_back),
                               color: Colors.green),
                         ),
+                        if (_image != null)
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Color.fromRGBO(254, 254, 254, 0.6),
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _image = null;
+                                    disappearance.image = _image;
+                                  });
+                                },
+                                icon: Icon(Icons.close),
+                                color: Colors.green),
+                          ),
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                        height: height * 0.53,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Color.fromRGBO(254, 254, 254, 1),
+                              child: IconButton(
+                                  onPressed: () async {
+                                    PickedFile image =
+                                        await getImage.getImageFromGallery();
+                                    setState(() {
+                                      _image = image.path;
+                                      disappearance.image = _image;
+                                    });
+                                    print(_image);
+                                  },
+                                  icon: Icon(
+                                    Icons.photo_library,
+                                    color: greenAccent,
+                                  )),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            CircleAvatar(
+                                radius: 25,
+                                backgroundColor:
+                                    Color.fromRGBO(254, 254, 254, 1),
+                                child: IconButton(
+                                    onPressed: () async {
+                                      PickedFile image =
+                                          await getImage.getImageFromCamera();
+                                      setState(() {
+                                        _image = image.path;
+                                        disappearance.image = _image;
+                                      });
+                                      print(_image);
+                                    },
+                                    icon: Icon(
+                                      Icons.camera_alt,
+                                      color: greenAccent,
+                                    ))),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.16),
+                          spreadRadius: 5,
+                          blurRadius: 6,
+                          offset: Offset(0, 3),
+                        )
+                      ]),
+                  child: Column(
+                    children: [
+                      Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                          child: TextField(
+                            onChanged: (text) {
+                              setState(() {
+                                disappearance.name = text;
+                              });
+                            },
+                            decoration: formFieldStyle('Name*', 'Name of your animal'),
+                            maxLines: 1,
+                            autocorrect: false,
+                          )),
+                      Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                          child: TextField(
+                            onChanged: (text) {
+                              setState(() {
+                                disappearance.description = text;
+                              });
+                            },
+                            decoration: formFieldStyle('Animal description*', 'Little cat with grey hair...'),
+                            maxLines: null,
+                            autocorrect: false,
+                          )),
+                      Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                          child: TextField(
+                            onChanged: (text) {
+                              disappearance.lastSeen = text;
+                            },
+                            decoration: formFieldStyle('Last Seen*', 'Fue visto por ultima vez en la plaza...'),
+                            maxLines: null,
+                            autocorrect: false,
+                          )),
+                      Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                          child: TextField(
+                            onChanged: (text) {
+                              disappearance.province = text;
+                            },
+                            decoration: formFieldStyle('Province*', ''),
+                            maxLines: 1,
+                            autocorrect: false,
+                          )),
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                          child: TextField(
+                            onChanged: (text) {
+                              setState(() {
+                                disappearance.userName = text;
+                              });
+                            },
+                            decoration: formFieldStyle('Name of owner*', ''),
+                            maxLines: 1,
+                            autocorrect: false,
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              top: 8, right: 24, left: 24, bottom: 24),
+                          child: TextField(
+                            onChanged: (text) {
+                              setState(() {
+                                disappearance.telephoneContact = text;
+                              });
+                            },
+                            decoration: formFieldStyle('Telephone for contact*', ''),
+                            maxLines: 1,
+                            autocorrect: false,
+                          )),
                     ],
                   ),
                 ),
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Container(
-                      height: height * 0.53,
-                    ),
-
-                    Container (
-                      width: double.infinity,
-                      child: Row (
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 25,
-                            backgroundColor:
-                            Color.fromRGBO(254, 254, 254, 1),
-                            child: IconButton(onPressed: () async {
-                              PickedFile image = await getImage.getImageFromGallery();
-                              setState(() {
-                                _image = image.path;
-                              });
-                              print(_image);
-                            }, icon: Icon(Icons.photo_library, color: greenAccent,)),
-                          ),
-                          SizedBox(width: 20,),
-                          CircleAvatar(
-                              radius: 25,
-                              backgroundColor:
-                              Color.fromRGBO(254, 254, 254, 1),
-                              child: IconButton(onPressed: () async {
-                                PickedFile image = await getImage.getImageFromCamera();
-                                setState(() {
-                                  _image = image.path;
-                                });
-                                print(_image);
-                              }, icon: Icon(Icons.camera_alt, color: greenAccent,))
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.16),
-                        spreadRadius: 5,
-                        blurRadius: 6,
-                        offset: Offset(0, 3),
-                      )
-                    ]),
-                child: Column(
-                  children: [
-                    textFieldForForm('Name*', 1),
-                    textFieldForForm('Animal description*', null),
-                    textFieldForForm('Last Seen*', null),
-                  ],
-                ),
               ),
-            )
-
-          ],
-        ),
-      )
-    );
+              Padding(
+                  padding: EdgeInsets.only(left: 32, right: 32, bottom: 16),
+                  child: Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        print(disappearance.image + ' ' + disappearance.name + ' ' + disappearance.description + ' ' + disappearance.lastSeen + ' ' + disappearance.province + ' ' + disappearance.userName + ' ' + disappearance.telephoneContact);
+                        await services.createDisappearance(disappearance);
+                      },
+                      child: Text('Publicar', style: TextStyle(fontFamily: 'Quicksand'),),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                            )
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(greenPrimary)
+                      )
+                    ),
+                  ),
+              )
+            ],
+          ),
+        ));
   }
 
-  Widget textFieldForForm(String hintText, var maxLines) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-        child: TextField (
-          onChanged: (text) => {
-
-          },
-          decoration: InputDecoration (
-            labelText: hintText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            labelStyle: TextStyle(fontFamily: 'Quicksand', color: greenAccent),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: greenAccent)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: greenPrimary, width: 2)),
-
-          ),
-          maxLines: maxLines,
-        )
+  InputDecoration formFieldStyle(String labelText, String hintText) {
+    return InputDecoration(
+      labelText: labelText,
+      hintText: hintText,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      labelStyle: TextStyle(fontFamily: 'Quicksand', color: greenAccent),
+      hintStyle: TextStyle(fontFamily: 'Quicksand', color: Colors.blueGrey.shade300, fontSize: 12),
+      enabledBorder:
+          UnderlineInputBorder(borderSide: BorderSide(color: greenAccent)),
+      focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: greenPrimary, width: 2)),
     );
   }
 }

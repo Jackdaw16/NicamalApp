@@ -97,7 +97,7 @@ class DescriptionCard extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                '"1 año de edad"',
+                                this.age,
                                 style: TextStyle(
                                     fontFamily: 'Quicksand', fontSize: 14),
                               ),

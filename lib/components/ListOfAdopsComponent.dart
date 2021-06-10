@@ -53,7 +53,7 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
     });
   }
 
-  Future<List<PublicationsResponseForList>> fetchPublications(
+  Future<List<PublicationsList>> fetchPublications(
       int offset) async {
     print(offset.toString());
     var page = (offset / 6).ceil() + 1;
@@ -62,7 +62,7 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
     return await services.getPublications(page.toInt());
   }
 
-  Future<List<PublicationsResponseForList>> fetchPublicationsWithFilter(
+  Future<List<PublicationsList>> fetchPublicationsWithFilter(
       int offset) async {
     print(offset.toString());
     var page = (offset / 6).ceil() + 1;
@@ -80,20 +80,20 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
           Visibility(
               visible: (filter == null || filter.isEmpty) ? false : true,
               child: Expanded(
-                child: PaginationView<PublicationsResponseForList>(
+                child: PaginationView<PublicationsList>(
                   key: keyFilter,
                   paginationViewType: paginationViewTypeFilter,
                   pullToRefresh: true,
                   pageFetch: fetchPublicationsWithFilter,
                   itemBuilder: (BuildContext context,
-                          PublicationsResponseForList publication, int index) =>
+                          PublicationsList publication, int index) =>
                       ListItemsComponent(
                     id: publication.id,
                     name: publication.name,
                     image: publication.image,
                     gender: publication.gender,
                     species: publication.species,
-                    country: publication.user.country,
+                    address: publication.user.address,
                     province: publication.user.province,
                         isMissing: false,
                   ),
@@ -126,20 +126,20 @@ class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
           Visibility(
               visible: (filter == null || filter.isEmpty) ? true : false,
               child: Expanded(
-                child: PaginationView<PublicationsResponseForList>(
+                child: PaginationView<PublicationsList>(
                   key: key,
                   paginationViewType: paginationViewType,
                   pullToRefresh: true,
                   pageFetch: fetchPublications,
                   itemBuilder: (BuildContext context,
-                          PublicationsResponseForList publication, int index) =>
+                          PublicationsList publication, int index) =>
                       ListItemsComponent(
                         id: publication.id,
                         name: publication.name,
                         image: publication.image,
                         gender: publication.gender,
                         species: publication.species,
-                        country: publication.user.country,
+                        address: publication.user.address,
                         province: publication.user.province,
                         isMissing: false,
                       ),

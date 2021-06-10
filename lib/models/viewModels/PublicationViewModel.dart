@@ -1,34 +1,31 @@
 import 'package:nicamal_app/models/viewModels/UserViewModel.dart';
 
-class PublicationsResponseForList {
+class PublicationsList {
   var id;
   var name;
   var image;
   var species;
   var gender;
-  var personality;
   var createdAt;
   var updatedAt;
   UserForPublication user;
 
-  PublicationsResponseForList(
+  PublicationsList(
       {this.id,
       this.name,
       this.image,
       this.species,
-      this.personality,
       this.gender,
       this.createdAt,
       this.updatedAt,
       this.user});
 
-  factory PublicationsResponseForList.fromJson(Map json) {
-    return PublicationsResponseForList(
+  factory PublicationsList.fromJson(Map json) {
+    return PublicationsList(
         id: json['id'],
         name: json['name'],
         image: json['image'],
         species: json['species'],
-        personality: json['personality'],
         gender: json['gender'],
         createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
@@ -47,7 +44,7 @@ class PublicationDetail {
   var history;
   var observation;
   var isUrgent;
-  var birthDate;
+  var age;
   var createdAt;
   var updatedAt;
   UserForPublicationDetail user;
@@ -63,7 +60,7 @@ class PublicationDetail {
       this.history,
       this.observation,
       this.isUrgent,
-      this.birthDate,
+      this.age,
       this.createdAt,
       this.updatedAt,
       this.user});
@@ -80,7 +77,7 @@ class PublicationDetail {
       history: json['history'],
       observation: json['observations'],
       isUrgent: json['isUrgent'],
-      birthDate: json['birthDate'],
+      age: json['age'],
       createdAt: json['createdAt'],
       updatedAt: json['updateAt'],
       user: UserForPublicationDetail.fromJson(json['user'])
