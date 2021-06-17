@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                                             ? greenAccent
                                             : greenPrimary),
                                     Text(
-                                      'Adop',
+                                      'Adopt',
                                       softWrap: false,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(

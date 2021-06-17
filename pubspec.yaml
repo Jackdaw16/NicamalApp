@@ -60,6 +60,7 @@ flutter:
   assets:
     - assets/nicamal_splashscreen.riv
     - assets/nicamal_splashscreen_2.riv
+    - assets/main.webp
     - assets/background.jpg
     - assets/nicamal-progressindicator.riv
 

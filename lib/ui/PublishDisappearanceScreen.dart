@@ -40,7 +40,10 @@ class _PublishDisappearanceScreenState
                       width: double.infinity,
                       height: height * 0.5,
                       decoration: BoxDecoration(
-                          color: Colors.orange,
+                          image: DecorationImage(
+                            image: AssetImage('assets/main.webp'),
+                            fit: BoxFit.cover
+                          ),
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(100))),
                       child: GestureDetector(

@@ -12,14 +12,14 @@ import 'CustomProgressIndicatorComponent.dart';
 import 'CustomSearchBarComponent.dart';
 import 'ListItemComponent.dart';
 
-class ListOfAdopsComponent extends StatefulWidget {
-  const ListOfAdopsComponent({Key key}) : super(key: key);
+class ListOfAdoptsComponent extends StatefulWidget {
+  const ListOfAdoptsComponent({Key key}) : super(key: key);
 
   @override
-  _ListOfAdopsComponentState createState() => _ListOfAdopsComponentState();
+  _ListOfAdoptsComponentState createState() => _ListOfAdoptsComponentState();
 }
 
-class _ListOfAdopsComponentState extends State<ListOfAdopsComponent> {
+class _ListOfAdoptsComponentState extends State<ListOfAdoptsComponent> {
   int page;
   String filter;
   Services services = Services();

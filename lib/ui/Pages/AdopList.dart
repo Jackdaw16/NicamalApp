@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nicamal_app/components/ListOfAdopsComponent.dart';
+import 'package:nicamal_app/components/ListOfAdoptsComponent.dart';
 
 class AdopList extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class _AdopListState extends State<AdopList> {
       backgroundColor: greyBackground,
       body: Column (
         children: [
-          ListOfAdopsComponent()
+          ListOfAdoptsComponent()
         ],
       )
     );
