@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Services extends IServices {
   //Aqui cambiar por tu IP si cambias de maquina
-  final String urlDevServer = "https://192.168.1.136:5001/api/";
+  final String urlDevServer = "https://192.168.1.141:5001/api/";
 
   @override
   Future<PublicationDetail> getPublication(String id) async {
