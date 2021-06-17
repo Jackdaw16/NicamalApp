@@ -39,7 +39,7 @@ class Services extends IServices {
     var uriParsed = urlDevServer + "publication";
     try {
       final response = await client.get(uriParsed,
-          queryParameters: {'pageNumber': page, 'pageSize': 6})
+          queryParameters: {'page': page, 'pageSize': 6})
           .timeout(Duration(seconds: 5), onTimeout: () {
         throw TimeoutException('The connection has timed out, check your internet connection and try again!');
       });
@@ -62,7 +62,7 @@ class Services extends IServices {
      var uriParsed = urlDevServer + "publication/filters";
     try {
       final response = await client.get(uriParsed,
-          queryParameters: {'pageNumber': page, 'pageSize': 6, 'TextForSearch': text})
+          queryParameters: {'page': page, 'pageSize': 6, 'TextForSearch': text})
           .timeout(Duration(seconds: 15), onTimeout: () {
         throw TimeoutException('The connection has timed out, Please try again!');
       });
@@ -105,7 +105,7 @@ class Services extends IServices {
     var uriParsed = urlDevServer + "disappearance";
     try {
       final response = await client.get(uriParsed,
-          queryParameters: {'pageNumber': page, 'pageSize': 6})
+          queryParameters: {'page': page, 'pageSize': 6})
           .timeout(Duration(seconds: 5), onTimeout: () {
         throw TimeoutException('The connection has timed out, check your internet connection and try again!');
       });
