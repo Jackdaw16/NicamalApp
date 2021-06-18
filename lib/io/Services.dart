@@ -142,7 +142,7 @@ class Services extends IServices {
     });
     try {
       final response = await client.post(uriParsed,
-          data: formData).timeout(Duration(seconds: 5), onTimeout: () {
+          data: formData).timeout(Duration(seconds: 10), onTimeout: () {
         throw TimeoutException('The connection has timed out, check your internet connection and try again!');
       });
 
