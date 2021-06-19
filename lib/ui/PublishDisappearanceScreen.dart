@@ -330,11 +330,14 @@ class _PublishDisappearanceScreenState
                                         succesDialog);
                               });
                             }
-                          }).then((value) {
+                          }).onError((error, stackTrace) {
+                            setState(() {
+                              btnState = 0;
+                            });
                             var errorDialog = ErrorPublish(
                               title: 'Error inesperado',
                               content:
-                                  'Comprueba tu conexión a internet y vuelve a intentarlo.',
+                              'Comprueba tu conexión a internet y vuelve a intentarlo.',
                             );
                             showDialog(
                                 context: context,
