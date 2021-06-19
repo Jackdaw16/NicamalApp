@@ -311,23 +311,9 @@ class _PublishDisappearanceScreenState
                       onPressed: () async {
                         if (_formKey.currentState.validate() &&
                             _image != null) {
-                          print("validated");
                           setState(() {
                             btnState = 1;
                           });
-                          print(disappearance.image +
-                              ' ' +
-                              disappearance.name +
-                              ' ' +
-                              disappearance.description +
-                              ' ' +
-                              disappearance.lastSeen +
-                              ' ' +
-                              disappearance.province +
-                              ' ' +
-                              disappearance.userName +
-                              ' ' +
-                              disappearance.telephoneContact);
                           await services
                               .createDisappearance(disappearance)
                               .then((value) {
@@ -335,22 +321,30 @@ class _PublishDisappearanceScreenState
                               setState(() {
                                 btnState = 0;
                                 var succesDialog = SuccessPublish(
-                                  title: 'Se ha publicado con exito',
-                                  content:
-                                      'Le deseamos que encuentre a su animal',
+                                  title: 'Ha sido publicado',
+                                  content: 'Esperemos que lo encuentre pronto.',
                                 );
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
                                         succesDialog);
-                                //Navigator.pop(context, true);
                               });
                             }
+                          }).then((value) {
+                            var errorDialog = ErrorPublish(
+                              title: 'Error inesperado',
+                              content:
+                                  'Comprueba tu conexión a internet y vuelve a intentarlo.',
+                            );
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => errorDialog);
                           });
                         } else {
                           var alert = ImageNotDefineAlert(
-                              title: 'Image not define',
-                              content: 'Se requiere una imagen');
+                              title: 'Elige una imagen',
+                              content:
+                                  'Se requiere una imagen para más información.');
 
                           showDialog(
                               context: context,
@@ -400,7 +394,9 @@ class _PublishDisappearanceScreenState
       return Container(
         height: 20,
         width: 20,
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
       );
     } else {
       return Icon(Icons.check, color: Colors.white);
