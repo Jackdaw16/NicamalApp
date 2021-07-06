@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/components/nicamal_icons_icons.dart';
-import 'package:nicamal_app/ui/Pages/AdopList.dart';
-import 'package:nicamal_app/ui/Pages/DisappearanceList.dart';
-import 'package:nicamal_app/ui/Pages/PublishDisappearance.dart';
-import 'package:nicamal_app/ui/Pages/SelectLogin.dart';
-import 'package:nicamal_app/ui/Pages/ShelterList.dart';
-import 'package:nicamal_app/ui/PublishDisappearanceScreen.dart';
+import 'package:nicamal_app/ui/Pages/adop_list_page.dart';
+import 'package:nicamal_app/ui/Pages/disappearance_list_page.dart';
+import 'package:nicamal_app/ui/Pages/select_login_page.dart';
+import 'package:nicamal_app/ui/Pages/shelter_list_page.dart';
+import 'package:nicamal_app/ui/publish_disappearance_screen.dart';
 
 final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
 final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
@@ -24,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> screens = [
     AdopList(),
     DisappearanceList(),
-    PublishDisappearance(),
     ShelterList(),
     SelectLogin()
   ];
@@ -148,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                           child: MaterialButton(
                             onPressed: () {
                               setState(() {
-                                _currentTab = 3;
+                                _currentTab = 2;
                                 _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
                               });
                             },
@@ -156,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.store_mall_directory,
-                                      color: _currentTab == 3
+                                      color: _currentTab == 2
                                           ? greenAccent
                                           : greenPrimary),
                                   Text(
@@ -167,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                                         fontFamily: 'Quicksand',
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
-                                        color: _currentTab == 3
+                                        color: _currentTab == 2
                                             ? greenAccent
                                             : greenPrimary),
                                   )
@@ -179,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                           child: MaterialButton(
                             onPressed: () {
                               setState(() {
-                                _currentTab = 4;
+                                _currentTab = 3;
                                 _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
                               });
                             },
@@ -187,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.account_circle,
-                                      color: _currentTab == 4
+                                      color: _currentTab == 3
                                           ? greenAccent
                                           : greenPrimary),
                                   Text(
@@ -198,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                                         fontFamily: 'Quicksand',
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
-                                        color: _currentTab == 4
+                                        color: _currentTab == 3
                                             ? greenAccent
                                             : greenPrimary),
                                   )

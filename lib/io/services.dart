@@ -3,15 +3,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:nicamal_app/io/IServices.dart';
+import 'package:nicamal_app/io/iservices.dart';
 import 'package:nicamal_app/models/Province.dart';
-import 'package:nicamal_app/models/viewModels/DisappearanceViewModel.dart';
-import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
+import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
 
 class Services extends IServices {
   //Aqui cambiar por tu IP si cambias de maquina
-  final String urlDevServer = "https://192.168.1.141:5001/api/";
+  final String urlDevServer = "https://192.168.1.156:5001/api/";
 
   @override
   Future<PublicationDetail> getPublication(String id) async {

@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:nicamal_app/components/CustomProgressIndicatorComponent.dart';
-import 'package:nicamal_app/components/DescriptionCard.dart';
-import 'package:nicamal_app/components/ImageDialog.dart';
-import 'package:nicamal_app/components/PopUpMenu.dart';
-import 'package:nicamal_app/components/SecondDescriptionCard.dart';
-import 'package:nicamal_app/components/WarningMessagge.dart';
-import 'package:nicamal_app/io/Services.dart';
-import 'package:nicamal_app/models/viewModels/DisappearanceViewModel.dart';
-import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
+import 'package:nicamal_app/components/custom_progress_indicator_component.dart';
+import 'package:nicamal_app/components/description_card.dart';
+import 'package:nicamal_app/components/image_dialog.dart';
+import 'package:nicamal_app/components/pop_up_menu.dart';
+import 'package:nicamal_app/components/second_description_card.dart';
+import 'package:nicamal_app/components/warning_messagge.dart';
+import 'package:nicamal_app/io/services.dart';
+import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
+import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id;

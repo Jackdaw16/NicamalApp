@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nicamal_app/components/CustomProgressIndicatorComponent.dart';
-import 'package:nicamal_app/components/ListItemComponent.dart';
-import 'package:nicamal_app/components/WarningEmptyMessagge.dart';
-import 'package:nicamal_app/components/WarningMessagge.dart';
-import 'package:nicamal_app/io/Services.dart';
-import 'package:nicamal_app/models/viewModels/DisappearanceViewModel.dart';
+import 'package:nicamal_app/components/custom_progress_indicator_component.dart';
+import 'package:nicamal_app/components/list_item_component.dart';
+import 'package:nicamal_app/components/warning_empty_messagge.dart';
+import 'package:nicamal_app/components/warning_messagge.dart';
+import 'package:nicamal_app/io/services.dart';
+import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
 import 'package:pagination_view/pagination_view.dart';
 
 class ListDisappearancesComponent extends StatefulWidget {

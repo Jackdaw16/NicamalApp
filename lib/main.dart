@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:nicamal_app/ui/DetailScreen.dart';
-import 'package:nicamal_app/ui/SplashScreen.dart';
+import 'package:nicamal_app/ui/detail_screen.dart';
+import 'package:nicamal_app/ui/splash_screen.dart';
 import 'package:flutter/services.dart';
 
-import 'ui/HomeScreen.dart';
+import 'ui/home_screen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override

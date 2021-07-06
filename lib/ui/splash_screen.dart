@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nicamal_app/io/FileManager.dart';
-import 'package:nicamal_app/io/Services.dart';
-import 'package:nicamal_app/ui/HomeScreen.dart';
+import 'package:nicamal_app/io/file_manager.dart';
+import 'package:nicamal_app/io/services.dart';
+import 'package:nicamal_app/ui/home_screen.dart';
 import 'package:rive/rive.dart';
 
 class SplashScreen extends StatefulWidget {

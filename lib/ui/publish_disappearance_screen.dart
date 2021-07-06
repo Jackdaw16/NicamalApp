@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nicamal_app/components/AlertDialog.dart';
-import 'package:nicamal_app/io/GetImage.dart';
-import 'package:nicamal_app/io/Services.dart';
-import 'package:nicamal_app/models/viewModels/DisappearanceViewModel.dart';
-import 'package:nicamal_app/io/FormValidation.dart';
+import 'package:nicamal_app/components/alert_dialogs.dart';
+import 'package:nicamal_app/io/get_image.dart';
+import 'package:nicamal_app/io/services.dart';
+import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
+import 'package:nicamal_app/io/form_validation.dart';
 
 class PublishDisappearanceScreen extends StatefulWidget {
   const PublishDisappearanceScreen({Key key}) : super(key: key);

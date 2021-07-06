@@ -1,5 +1,5 @@
-import 'package:nicamal_app/io/IFileManager.dart';
-import 'package:nicamal_app/io/Services.dart';
+import 'package:nicamal_app/io/ifile_manager.dart';
+import 'package:nicamal_app/io/services.dart';
 import 'package:nicamal_app/models/Province.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nicamal_app/components/MaleAndFemaleIconComponent.dart';
+import 'package:nicamal_app/components/gender_icon_component.dart';
 
 class DescriptionCard extends StatelessWidget {
   final String name;

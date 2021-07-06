@@ -1,4 +1,4 @@
-import 'package:nicamal_app/models/viewModels/UserViewModel.dart';
+import 'package:nicamal_app/models/viewModels/user_view_model.dart';
 
 class PublicationsList {
   var id;

@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nicamal_app/components/WarningEmptyMessagge.dart';
-import 'package:nicamal_app/components/WarningMessagge.dart';
-import 'package:nicamal_app/io/Services.dart';
-import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
-import 'package:nicamal_app/ui/HomeScreen.dart';
+import 'package:nicamal_app/components/warning_empty_messagge.dart';
+import 'package:nicamal_app/components/warning_messagge.dart';
+import 'package:nicamal_app/io/services.dart';
+import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
+import 'package:nicamal_app/ui/home_screen.dart';
 import 'package:pagination_view/pagination_view.dart';
 
-import 'CustomProgressIndicatorComponent.dart';
-import 'CustomSearchBarComponent.dart';
-import 'ListItemComponent.dart';
+import 'custom_progress_indicator_component.dart';
+import 'custom_search_bar_component.dart';
+import 'list_item_component.dart';
 
 class ListOfAdoptsComponent extends StatefulWidget {
   const ListOfAdoptsComponent({Key key}) : super(key: key);
@@ -22,11 +22,15 @@ class ListOfAdoptsComponent extends StatefulWidget {
 class _ListOfAdoptsComponentState extends State<ListOfAdoptsComponent> {
   int page;
   String filter;
+
   Services services = Services();
+
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
+
   PaginationViewType paginationViewType;
   PaginationViewType paginationViewTypeFilter;
+
   GlobalKey<PaginationViewState> key;
   GlobalKey<PaginationViewState> keyFilter;
 

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nicamal_app/models/viewModels/PublicationViewModel.dart';
-import 'package:nicamal_app/ui/DetailScreen.dart';
+import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
+import 'package:nicamal_app/ui/detail_screen.dart';
 
-import 'MaleAndFemaleIconComponent.dart';
-import 'PopUpMenu.dart';
+import 'gender_icon_component.dart';
+import 'pop_up_menu.dart';
 import 'nicamal_icons_icons.dart';
 
 class ListItemsComponent extends StatefulWidget {

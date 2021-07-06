@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nicamal_app/components/ListOfAdoptsComponent.dart';
+import 'package:nicamal_app/components/list_of_adopts_component.dart';
 
 class AdopList extends StatefulWidget {
   @override

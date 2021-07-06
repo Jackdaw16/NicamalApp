@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nicamal_app/components/ListDisappearancesComponent.dart';
+import 'package:nicamal_app/components/list_disappearances_component.dart';
 
 class DisappearanceList extends StatefulWidget {
   @override

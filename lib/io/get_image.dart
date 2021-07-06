@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
-import 'package:nicamal_app/io/IImagePicker.dart';
+import 'package:nicamal_app/io/iimage_picker.dart';
 
 class GetImage implements IImagePicker {
   @override
