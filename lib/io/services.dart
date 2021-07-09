@@ -7,6 +7,7 @@ import 'package:nicamal_app/io/iservices.dart';
 import 'package:nicamal_app/models/Province.dart';
 import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
 import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
+import 'package:nicamal_app/models/viewModels/shelter_view_model.dart';
 
 class Services extends IServices {
   //Aqui cambiar por tu IP si cambias de maquina
@@ -61,7 +62,7 @@ class Services extends IServices {
      var uriParsed = urlDevServer + "publication/filters";
     try {
       final response = await client.get(uriParsed,
-          queryParameters: {'page': page, 'pageSize': 6, 'TextForSearch': text})
+          queryParameters: {'page': page, 'pageSize': 6, 'Text': text})
           .timeout(Duration(seconds: 15), onTimeout: () {
         throw TimeoutException('The connection has timed out, Please try again!');
       });
@@ -168,6 +169,63 @@ class Services extends IServices {
       List<Province> provinces = iterable.map((model) => Province.fromJson(model)).toList();
 
       return provinces;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<UserShelterDetail> getShelter(String id) {
+    // TODO: implement getShelter
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<UserShelterList>> getShelters(int page) async {
+
+    var client = Dio();
+    var uriParsed = urlDevServer + "shelter";
+
+    try {
+
+      final response = await client.get(uriParsed,
+          queryParameters: {'page': page, 'pageSize': 6})
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        return null;
+      });
+
+      Iterable iterable = json.decode(json.encode(response.data));
+      List<UserShelterList> shelters = iterable.map((model) => UserShelterList.fromJson(model)).toList();
+
+      return shelters;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<UserShelterList>> getSheltersWithFilters(int page, String text) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "shelter/filters";
+
+    try {
+
+      final response = await client.get(uriParsed,
+          queryParameters: {'page': page, 'pageSize': 6, 'Text': text})
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        return null;
+      });
+
+      Iterable iterable = json.decode(json.encode(response.data));
+      List<UserShelterList> shelters = iterable.map((model) => UserShelterList.fromJson(model)).toList();
+
+      return shelters;
 
     } on SocketException {
       throw SocketException('You are not connected to internet');

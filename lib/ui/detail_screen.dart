@@ -112,7 +112,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           backgroundColor: Color.fromRGBO(
                                               254, 254, 254, 0.4),
                                           child:
-                                              popUpMenu(context, Colors.green),
+                                              popUpMenu(color: Colors.green, letFavorite: true),
                                         )
                                       ],
                                     ),
@@ -261,7 +261,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           backgroundColor: Color.fromRGBO(
                                               254, 254, 254, 0.4),
                                           child:
-                                              popUpMenu(context, Colors.green),
+                                              popUpMenu(color: Colors.green, letFavorite: false,),
                                         )
                                       ],
                                     ),

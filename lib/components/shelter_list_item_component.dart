@@ -1,47 +1,30 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
-import 'package:nicamal_app/ui/detail_screen.dart';
+import 'package:nicamal_app/components/pop_up_menu.dart';
 
-import 'gender_icon_component.dart';
-import 'pop_up_menu.dart';
-import 'nicamal_icons_icons.dart';
-
-class ListItemsComponent extends StatefulWidget {
+class ShelterListItemComponent extends StatefulWidget {
   final String id;
   final String name;
   final String image;
-  final String gender;
-  final String species;
   final String address;
   final String province;
-  final String description;
-  final bool isMissing;
-  const ListItemsComponent({Key key, this.id, this.name, this.image, this.gender, this.species, this.address, this.province, this.description, this.isMissing}) : super(key: key);
+  final int publicationCount;
+
+  const ShelterListItemComponent({Key key, this.id, this.name, this.image, this.province, this.address, this.publicationCount}) : super(key: key);
 
   @override
-  _ListItemsComponentState createState() => _ListItemsComponentState();
+  _ShelterListItemComponentState createState() => _ShelterListItemComponentState();
 }
 
-class _ListItemsComponentState extends State<ListItemsComponent> {
+class _ShelterListItemComponentState extends State<ShelterListItemComponent> {
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DetailScreen(
-                  id: widget.id,
-                  isMissing: widget.isMissing,
-                )));
-      },
+      onTap: () => {},
       child: Padding(
         padding: EdgeInsets.all(18.0),
         child: Stack(
@@ -98,21 +81,9 @@ class _ListItemsComponentState extends State<ListItemsComponent> {
                                               fontSize: 16.0),
                                         ),
                                       ),
-                                      if(widget.gender != null)
-                                        Visibility(
-                                            visible: (widget.gender == null) ? false : true,
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: 8),
-                                              child: iconSelect(
-                                                  context, widget.gender, 14),
-                                            )
-                                        ),
                                     ],
                                   ),
-                                  if(widget.isMissing)
-                                    popUpMenu(color: Colors.black, letFavorite: false),
-                                  if(!widget.isMissing)
-                                    popUpMenu(color: Colors.black, letFavorite: true),
+                                  popUpMenu(color: Colors.black, letFavorite: false),
                                 ],
                               ),
                               Padding(
@@ -121,36 +92,18 @@ class _ListItemsComponentState extends State<ListItemsComponent> {
                                   children: [
                                     Row(
                                       children: [
-                                        if(widget.species != null)
-                                          Visibility(
-                                            visible: (widget.species == null) ? false : true,
-                                            child: Expanded(
-                                              child: Text(
-                                                widget.species,
-                                                softWrap: false,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontFamily: 'Quicksand',
-                                                    color: Colors.grey.shade600),
-                                              ),
+                                        if(widget.publicationCount != null)
+                                          Expanded(
+                                            child: Text(
+                                              widget.publicationCount.toString() + " adopciones",
+                                              softWrap: false,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontFamily: 'Quicksand',
+                                                  color: Colors.grey.shade600),
                                             ),
                                           ),
-                                        if(widget.description != null)
-                                          Visibility(
-                                            visible: (widget.description == null) ? false : true,
-                                            child: Expanded(
-                                              child: Text(
-                                                widget.description,
-                                                softWrap: true,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontFamily: 'Quicksand',
-                                                    color: Colors.grey.shade600),
-                                              ),
-                                            ),
-                                          )
                                       ],
                                     ),
                                   ],
