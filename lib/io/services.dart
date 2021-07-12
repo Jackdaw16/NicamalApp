@@ -178,9 +178,24 @@ class Services extends IServices {
   }
 
   @override
-  Future<UserShelterDetail> getShelter(String id) {
-    // TODO: implement getShelter
-    throw UnimplementedError();
+  Future<UserShelterDetail> getShelter(String id) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "shelter/detail";
+
+    try {
+      final response = await client.get(uriParsed,
+          queryParameters: {'id': id})
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        throw TimeoutException('The connection has timed out, check your internet connection and try again!');
+      });
+
+      return UserShelterDetail.fromJson(jsonDecode(json.encode(response.data)));
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override

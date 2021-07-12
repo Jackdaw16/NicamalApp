@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 setState(() {
                                   _currentTab = 0;
-                                  _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
+                                  _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 100), curve: Curves.linear);
                                 });
                               },
                               child: Column(
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               setState(() {
                                 _currentTab = 1;
-                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
+                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 100), curve: Curves.linear);
                               });
                             },
                             child: Column(
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               setState(() {
                                 _currentTab = 2;
-                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
+                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 100), curve: Curves.linear);
                               });
                             },
                             child: Column(
@@ -178,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               setState(() {
                                 _currentTab = 3;
-                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 200), curve: Curves.linear);
+                                _myPage.animateToPage(_currentTab, duration: Duration(milliseconds: 100), curve: Curves.linear);
                               });
                             },
                             child: Column(

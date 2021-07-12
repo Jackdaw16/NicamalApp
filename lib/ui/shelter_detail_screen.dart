@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/components/custom_progress_indicator_component.dart';
+import 'package:nicamal_app/components/profile_component.dart';
 import 'package:nicamal_app/components/warning_messagge.dart';
 import 'package:nicamal_app/io/services.dart';
 import 'package:nicamal_app/models/viewModels/shelter_view_model.dart';
@@ -30,7 +31,7 @@ class _ShelterDetailScreenState extends State<ShelterDetailScreen> {
           List<Widget> children;
           if (snapshot.hasData){
             children = <Widget>[
-              
+              ProfileComponent(shelter: snapshot.data,)
             ];
           } else if (snapshot.hasError) {
             children = <Widget>[
@@ -43,9 +44,7 @@ class _ShelterDetailScreenState extends State<ShelterDetailScreen> {
                     informationWarning(
                         greenPrimary, snapshot.error.toString()),
                     TextButton(
-                      onPressed: () {
-                        setState(() {});
-                      },
+                      onPressed: () {},
                       child: Text('Reset',
                           style: TextStyle(
                               fontFamily: 'Quicksand',
@@ -70,7 +69,7 @@ class _ShelterDetailScreenState extends State<ShelterDetailScreen> {
           return Column(
             children: children,
           );
-        },
+        }
       ),
     );
   }

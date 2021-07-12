@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/': (BuildContext context) => SplashScreen(),
         '/home': (BuildContext context) => HomePage(),
-        '/publication/detail': (BuildContext context) => DetailScreen()
       }
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/components/pop_up_menu.dart';
+import 'package:nicamal_app/ui/detail_screen.dart';
+import 'package:nicamal_app/ui/shelter_detail_screen.dart';
 
 class ShelterListItemComponent extends StatefulWidget {
   final String id;
@@ -24,7 +26,14 @@ class _ShelterListItemComponentState extends State<ShelterListItemComponent> {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return GestureDetector(
-      onTap: () => {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ShelterDetailScreen(
+                  id: widget.id,
+                )));
+      },
       child: Padding(
         padding: EdgeInsets.all(18.0),
         child: Stack(
