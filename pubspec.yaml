@@ -55,6 +55,8 @@ flutter:
         - asset: fonts/Quicksand-Medium.ttf
         - asset: fonts/Quicksand-Bold.ttf
           weight: 700
+        - asset: fonts/Quicksand-Light.ttf
+          weight: 300
 
   # To add assets to your application, add an assets section, like this:
   assets:
