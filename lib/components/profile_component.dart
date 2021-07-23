@@ -48,7 +48,6 @@ class _ProfileComponentState extends State<ProfileComponent> {
             ),
             Padding(
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-                height: size.height,
                 child: Container(
                   width: double.infinity,
                   height: size.height,
