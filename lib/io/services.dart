@@ -248,4 +248,100 @@ class Services extends IServices {
       return null;
     }
   }
+
+  @override
+  Future<List<PublicationsList>> getShelterPublications(String id, int page) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "shelter/publications";
+
+    try {
+      final response = await client.get(uriParsed,
+          queryParameters: {'page': page, 'pageSize': 6, 'id': id})
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        throw TimeoutException('The connection has timed out, check your internet connection and try again!');
+      });
+
+      Iterable iterable = json.decode(json.encode(response.data));
+      List<PublicationsList> publications = iterable.map((model) => PublicationsList.fromJson(model)).toList();
+
+      return publications;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<List<PublicationsList>> getShelterPublicationsFilters(String id, int page, String text) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "shelter/publications/filters";
+
+    try {
+      final response = await client.get(uriParsed,
+          queryParameters: {'page': page, 'pageSize': 6, 'id': id, 'text': text})
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        throw TimeoutException('The connection has timed out, check your internet connection and try again!');
+      });
+
+      Iterable iterable = json.decode(json.encode(response.data));
+      List<PublicationsList> publications = iterable.map((model) => PublicationsList.fromJson(model)).toList();
+
+      return publications;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<List<PublicationsList>> getShelterPublicationsUrgent(String id, int page) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "shelter/publications/urgents";
+
+    try {
+      final response = await client.get(uriParsed,
+          queryParameters: {'page': page, 'pageSize': 6, 'id': id})
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        throw TimeoutException('The connection has timed out, check your internet connection and try again!');
+      });
+
+      Iterable iterable = json.decode(json.encode(response.data));
+      List<PublicationsList> publications = iterable.map((model) => PublicationsList.fromJson(model)).toList();
+
+      return publications;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<List<PublicationsList>> getShelterPublicationsUrgentFilters(String id, int page, String text) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "shelter/publications/urgents/filters";
+
+    try {
+      final response = await client.get(uriParsed,
+          queryParameters: {'page': page, 'pageSize': 6, 'id': id, 'text': text})
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        throw TimeoutException('The connection has timed out, check your internet connection and try again!');
+      });
+
+      Iterable iterable = json.decode(json.encode(response.data));
+      List<PublicationsList> publications = iterable.map((model) => PublicationsList.fromJson(model)).toList();
+
+      return publications;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

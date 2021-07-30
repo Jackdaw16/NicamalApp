@@ -4,8 +4,12 @@ import 'package:flutter/widgets.dart';
 
 class CustomSearchBarComponent extends StatefulWidget {
   final filterChange;
+  final double width;
+  final double verticalPadding;
+  final double horizontalPadding;
+  final bool filter;
 
-  const CustomSearchBarComponent({Key key, this.filterChange}) : super(key: key);
+  const CustomSearchBarComponent({Key key, this.filterChange, this.width, this.verticalPadding, this.horizontalPadding, this.filter}) : super(key: key);
 
   @override
   _CustomSearchBarComponentState createState() => _CustomSearchBarComponentState();
@@ -29,15 +33,11 @@ class _CustomSearchBarComponentState extends State<CustomSearchBarComponent> {
     var padding = MediaQuery.of(context).viewPadding.top;
     return SafeArea(
       top: safeArea(padding),
+      bottom: safeArea(0),
       child: Padding(
-        padding: EdgeInsets.only(
-          top: 8,
-          bottom: 8,
-          left: 16,
-          right: 16,
-        ),
+        padding: EdgeInsets.symmetric(vertical: widget.verticalPadding, horizontal: widget.horizontalPadding),
         child: Container(
-          width: double.infinity,
+          width: widget.width,
           height: 40,
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
@@ -63,14 +63,15 @@ class _CustomSearchBarComponentState extends State<CustomSearchBarComponent> {
                 fillColor: Colors.white,
                 prefixIcon: Icon(Icons.search, color: greenAccent),
                 hintText: 'Search animals',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.filter_list),
-                  onPressed: () => {print('pressed')},
-                  color: greenAccent,
-                ),
-                contentPadding: EdgeInsets.only(
-                  bottom: 40 / 2, // HERE THE IMPORTANT PART
-                )),
+                suffixIcon: (widget.filter) ? IconButton(
+                icon: Icon(Icons.filter_list),
+            onPressed: () => {print('pressed')},
+            color: greenAccent,
+            splashRadius: 10,
+          ) : null,
+            contentPadding: EdgeInsets.only(
+              bottom: 40 / 2,
+            )),
           ),
         ),
       ),

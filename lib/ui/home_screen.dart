@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/components/nicamal_icons_icons.dart';
-import 'package:nicamal_app/ui/Pages/adop_list_page.dart';
+import 'package:nicamal_app/ui/Pages/adopt_list_page.dart';
 import 'package:nicamal_app/ui/Pages/disappearance_list_page.dart';
 import 'package:nicamal_app/ui/Pages/select_login_page.dart';
 import 'package:nicamal_app/ui/Pages/shelter_list_page.dart';
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   PageController _myPage = PageController(initialPage: 0);
 
   final List<Widget> screens = [
-    AdopList(),
+    AdoptList(),
     DisappearanceList(),
     ShelterList(),
     SelectLogin()

@@ -68,7 +68,13 @@ class _ListOfSheltersState extends State<ListOfShelters> {
   Widget build(BuildContext context) {
     return Expanded(child: Column(
       children: [
-        CustomSearchBarComponent(filterChange: filterChange),
+        CustomSearchBarComponent(
+            filterChange: filterChange,
+          width: double.infinity,
+          verticalPadding: 8,
+          horizontalPadding: 16,
+          filter: true,
+        ),
         Visibility(
             visible: (filter == null || filter.isEmpty) ? false : true,
             child: Expanded(
