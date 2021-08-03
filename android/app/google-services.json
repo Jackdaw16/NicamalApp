@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "995955139184",
+    "project_id": "nicamal-5498d",
+    "storage_bucket": "nicamal-5498d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995955139184:android:cdd17f80cf02530283cab5",
+        "android_client_info": {
+          "package_name": "com.example.nicamal_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995955139184-oroepc5el70gs254d426grlo9tr6tv92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzgWXHBiqb63XTvBZ9IgtZW-cxkaBCtkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995955139184-oroepc5el70gs254d426grlo9tr6tv92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
