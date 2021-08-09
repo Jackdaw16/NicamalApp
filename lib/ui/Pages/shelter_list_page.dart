@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nicamal_app/components/list_of_shelters_component.dart';
 
-class ShelterList extends StatefulWidget {
+class ShelterListPage extends StatefulWidget {
   @override
-  _ShelterListState createState() => _ShelterListState();
+  _ShelterListPageState createState() => _ShelterListPageState();
 }
 
-class _ShelterListState extends State<ShelterList> {
+class _ShelterListPageState extends State<ShelterListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

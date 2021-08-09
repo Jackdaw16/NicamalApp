@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:nicamal_app/components/list_disappearances_component.dart';
 
-class DisappearanceList extends StatefulWidget {
+class DisappearanceListPage extends StatefulWidget {
   @override
-  _DisappearanceListState createState() => _DisappearanceListState();
+  _DisappearanceListPageState createState() => _DisappearanceListPageState();
 }
 
-class _DisappearanceListState extends State<DisappearanceList> {
+class _DisappearanceListPageState extends State<DisappearanceListPage> {
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
   final Color greyBackground = Color.fromARGB(255, 245, 245, 245);
-  @override
+
   bool safeArea (double padding) {
     if (padding > 0) {
       return true;

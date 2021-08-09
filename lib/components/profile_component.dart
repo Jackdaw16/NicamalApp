@@ -128,7 +128,7 @@ class _ProfileComponentState extends State<ProfileComponent> {
       child: ElevatedButton(
           onPressed: (widget.shelter.publicationCount <= 0) ? null : () {
             Navigator.push(context, MaterialPageRoute(builder: (context)
-            => AdoptList(shelterId: widget.shelter.id, isUrgent: false,)));
+            => AdoptListPage(shelterId: widget.shelter.id, isUrgent: false,)));
           },
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all(Colors.black12),
@@ -207,7 +207,7 @@ class _ProfileComponentState extends State<ProfileComponent> {
       child: ElevatedButton(
           onPressed: (widget.shelter.urgentCount <= 0) ? null : () {
             Navigator.push(context, MaterialPageRoute(builder: (context)
-            => AdoptList(shelterId: widget.shelter.id, isUrgent: true,)));
+            => AdoptListPage(shelterId: widget.shelter.id, isUrgent: true,)));
           },
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all(Colors.black12),

@@ -51,6 +51,9 @@ flutter:
     - family:  NicamalIcons
       fonts:
         - asset: fonts/NicamalIcons.ttf
+    - family: NicamalIcon2
+      fonts:
+        - asset: fonts/NicamalIcon2.ttf
     - family: Quicksand
       fonts:
         - asset: fonts/Quicksand-Medium.ttf
@@ -67,6 +70,7 @@ flutter:
     - assets/background.jpg
     - assets/profile-background.jpeg
     - assets/nicamal-progressindicator.riv
+    - assets/nicamal-logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
