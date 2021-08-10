@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nicamal_app/models/viewModels/user_view_model.dart';
 
 class LoginFormComponent extends StatefulWidget {
-  const LoginFormComponent({Key key}) : super(key: key);
+  final changeShelterLogin;
+  final getImShelter;
+  final UserLogIn user;
+
+  const LoginFormComponent({Key key, this.changeShelterLogin, this.getImShelter, this.user}) : super(key: key);
 
   @override
   _LoginFormComponentState createState() => _LoginFormComponentState();
@@ -71,7 +76,11 @@ class _LoginFormComponentState extends State<LoginFormComponent> {
 
   Widget emailField() {
     return TextFormField(
-      onChanged: (text) {},
+      onChanged: (email) {
+        setState(() {
+          widget.user.email = email;
+        });
+      },
       decoration: formFieldStyle('Email'),
       maxLines: 1,
       autocorrect: false,
@@ -80,7 +89,11 @@ class _LoginFormComponentState extends State<LoginFormComponent> {
 
   Widget passwordField() {
     return TextFormField(
-      onChanged: (text) {},
+      onChanged: (password) {
+        setState(() {
+          widget.user.password = password;
+        });
+      },
       decoration: passwordFormFieldStyle('Contraseña'),
       obscureText: isObscure,
     );
@@ -107,9 +120,9 @@ class _LoginFormComponentState extends State<LoginFormComponent> {
 
   Widget imShelterButton() {
     return TextButton(
-        onPressed: () {},
+        onPressed: widget.changeShelterLogin,
         child: Text(
-            'Soy una protectora',
+          (!widget.getImShelter) ? 'Soy una protectora' : 'Soy un particular',
           style: TextStyle(
             color: greenPrimary,
             fontFamily: 'Quicksand',

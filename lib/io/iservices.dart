@@ -2,6 +2,7 @@ import 'package:nicamal_app/models/Province.dart';
 import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
 import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
 import 'package:nicamal_app/models/viewModels/shelter_view_model.dart';
+import 'package:nicamal_app/models/viewModels/user_view_model.dart';
 
 abstract class IServices {
   /*Publication calls*/
@@ -12,7 +13,7 @@ abstract class IServices {
   /*Disappearances calls*/
   Future<List<DisappearanceListResponse>> getDisappearances(int page);
   Future<DisappearanceDetail> getDisappearance(String id);
-  Future<DisappearanceDetail> createDisappearance(DisappearanceDetail disappearance);
+  Future<DisappearanceDetail> postDisappearance(DisappearanceDetail disappearance);
 
   /*Provinces call*/
   Future<List<Province>> getProvinces();
@@ -25,5 +26,8 @@ abstract class IServices {
   Future<List<PublicationsList>> getShelterPublicationsFilters(String id, int page, String text);
   Future<List<PublicationsList>> getShelterPublicationsUrgent(String id, int page);
   Future<List<PublicationsList>> getShelterPublicationsUrgentFilters(String id, int page, String text);
+
+  /*User calls*/
+  Future<UserLoggedIn> userLogIn(UserLogIn user);
 
 }

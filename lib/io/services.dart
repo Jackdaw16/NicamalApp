@@ -8,6 +8,7 @@ import 'package:nicamal_app/models/Province.dart';
 import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
 import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
 import 'package:nicamal_app/models/viewModels/shelter_view_model.dart';
+import 'package:nicamal_app/models/viewModels/user_view_model.dart';
 
 class Services extends IServices {
   //Aqui cambiar por tu IP si cambias de maquina
@@ -121,8 +122,9 @@ class Services extends IServices {
       throw Exception(e);
     }
   }
+
   @override
-  Future<DisappearanceDetail> createDisappearance(DisappearanceDetail disappearance) async {
+  Future<DisappearanceDetail> postDisappearance(DisappearanceDetail disappearance) async {
     var client = Dio();
     var uriParsed = urlDevServer + "disappearance";
 
@@ -337,6 +339,28 @@ class Services extends IServices {
       List<PublicationsList> publications = iterable.map((model) => PublicationsList.fromJson(model)).toList();
 
       return publications;
+
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<UserLoggedIn> userLogIn(UserLogIn user) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "user/login";
+
+    print(user.email.toString() + user.password.toString());
+
+    try {
+      final response = await client.post(uriParsed,
+          data: user.toJson(user)).timeout(Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException('The connection has timed out, check your internet connection and try again!');
+      });
+
+      return UserLoggedIn.fromJson(jsonDecode(json.encode(response.data)));
 
     } on SocketException {
       throw SocketException('You are not connected to internet');

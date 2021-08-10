@@ -315,7 +315,7 @@ class _PublishDisappearanceScreenState
                             btnState = 1;
                           });
                           await services
-                              .createDisappearance(disappearance)
+                              .postDisappearance(disappearance)
                               .then((value) {
                             if (value != null) {
                               setState(() {
