@@ -26,6 +26,7 @@ abstract class IServices {
   Future<List<PublicationsList>> getShelterPublicationsFilters(String id, int page, String text);
   Future<List<PublicationsList>> getShelterPublicationsUrgent(String id, int page);
   Future<List<PublicationsList>> getShelterPublicationsUrgentFilters(String id, int page, String text);
+  Future<UserShelterLoggedIn> userShelterLogIn(UserLogIn user);
 
   /*User calls*/
   Future<UserLoggedIn> userLogIn(UserLogIn user);

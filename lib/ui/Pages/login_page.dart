@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/components/nicamal_icon2_icons.dart';
 import 'package:nicamal_app/io/services.dart';
 import 'package:nicamal_app/models/viewModels/user_view_model.dart';
+import 'package:nicamal_app/io/form_validation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -169,9 +170,16 @@ class _LoginPageState extends State<LoginPage> {
   Widget enterButton() {
     return ElevatedButton(
         onPressed: () async {
-          var userLogged = await _services.userLogIn(user);
-          print(userLogged.token.toString());
+
+          if (!imShelter && _loginFormKey.currentState.validate()) {
+            var userLogged = await _services.userLogIn(user);
+            print(userLogged.token.toString());
+          } else if (imShelter && _loginFormKey.currentState.validate()){
+            var userLogged = await _services.userShelterLogIn(user);
+            print(userLogged.token.toString());
+          }
         },
+
         child: Text('Acceder', style: TextStyle(
          fontFamily: 'Quicksand',
           color: greenPrimary
@@ -239,6 +247,15 @@ class _LoginPageState extends State<LoginPage> {
           user.email = email;
         });
       },
+      validator: (email) {
+        if(email.isEmpty) {
+          return 'Es necesario introducir un email';
+        } else if (!email.isValidEmail(email)){
+          return 'No es un email valido';
+        } else {
+          return null;
+        }
+      },
       decoration: formFieldStyle('Email'),
       maxLines: 1,
       autocorrect: false,
@@ -251,6 +268,13 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           user.password = password;
         });
+      },
+      validator: (password) {
+        if(password.isEmpty) {
+          return 'Es necesario introducir la contraseña';
+        } else {
+          return null;
+        }
       },
       decoration: passwordFormFieldStyle('Contraseña'),
       obscureText: isObscure,

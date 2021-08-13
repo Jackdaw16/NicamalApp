@@ -14,9 +14,14 @@ extension FormValidation on String {
     return phoneRegExp.hasMatch(number);
   }
 
-  bool get isValidPassword {
+  bool isValidPassword(String password) {
     final passwordRegExp = new RegExp(
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    return passwordRegExp.hasMatch(this);
+    return passwordRegExp.hasMatch(password);
+  }
+  
+  bool isValidEmail(String email) {
+    final emailRegExp = new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    return emailRegExp.hasMatch(email);
   }
 }

@@ -60,3 +60,17 @@ class UserShelterDetail {
     );
   }
 }
+
+class UserShelterLoggedIn {
+  UserShelterDetail shelter;
+  String token;
+
+  UserShelterLoggedIn({this.shelter, this.token});
+
+  factory UserShelterLoggedIn.fromJson(Map<String, dynamic> json) {
+    return UserShelterLoggedIn(
+      shelter: UserShelterDetail.fromJson(json['shelter']),
+      token: json['token']
+    );
+  }
+}
