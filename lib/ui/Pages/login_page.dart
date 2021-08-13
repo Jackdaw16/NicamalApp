@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/components/nicamal_icon2_icons.dart';
+import 'package:nicamal_app/components/warnings_notifications_component.dart';
 import 'package:nicamal_app/io/services.dart';
 import 'package:nicamal_app/models/viewModels/user_view_model.dart';
 import 'package:nicamal_app/io/form_validation.dart';
@@ -44,19 +45,17 @@ class _LoginPageState extends State<LoginPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SingleChildScrollView (
-        child: Container(
-          width: double.infinity,
-          height: size.height * 0.9,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              header(),
-
-              SizedBox(height: 20),
-
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
+      body: SingleChildScrollView(
+          child: Container(
+        width: double.infinity,
+        height: size.height * 0.9,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            header(),
+            SizedBox(height: 20),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   children: [
                     loginForm(),
@@ -69,36 +68,31 @@ class _LoginPageState extends State<LoginPage> {
                       width: double.infinity,
                       child: registerButton(),
                     ),
-
                     AnimatedOpacity(
-                        opacity: (!imShelter) ? 1 : 0 ,
-                        curve: Curves.easeInOut,
-                        duration: Duration(milliseconds: 500),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Divider(
-                            height: 0.5,
-                            thickness: 1,
-                            indent: 8,
-                            endIndent: 8,
-                            color: greenPrimary,
-                          ),
-                        ),
-                    ),
-
-                    AnimatedOpacity(
-                      opacity: (!imShelter) ? 1 : 0 ,
+                      opacity: (!imShelter) ? 1 : 0,
                       curve: Curves.easeInOut,
                       duration: Duration(milliseconds: 500),
-                      child: googleLogin()
-                    )
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: Divider(
+                          height: 0.5,
+                          thickness: 1,
+                          indent: 8,
+                          endIndent: 8,
+                          color: greenPrimary,
+                        ),
+                      ),
+                    ),
+                    AnimatedOpacity(
+                        opacity: (!imShelter) ? 1 : 0,
+                        curve: Curves.easeInOut,
+                        duration: Duration(milliseconds: 500),
+                        child: googleLogin())
                   ],
-                )
-              )
-            ],
-          ),
-        )
-      ),
+                ))
+          ],
+        ),
+      )),
     );
   }
 
@@ -108,10 +102,7 @@ class _LoginPageState extends State<LoginPage> {
       height: 150,
       decoration: BoxDecoration(
           image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage('assets/nicamal-logo.png')
-          )
-      ),
+              fit: BoxFit.cover, image: AssetImage('assets/nicamal-logo.png'))),
     );
   }
 
@@ -126,10 +117,8 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.grey.withOpacity(0.16),
                 spreadRadius: 2,
                 blurRadius: 6,
-                offset: Offset(0, 5)
-            )
-          ]
-      ),
+                offset: Offset(0, 5))
+          ]),
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Form(
@@ -141,23 +130,18 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
               passwordField(),
               SizedBox(height: 20),
-
               ConstrainedBox(
                 constraints: BoxConstraints.expand(height: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    forgotPasswordButton()
-                  ],
+                  children: [forgotPasswordButton()],
                 ),
               ),
               ConstrainedBox(
                 constraints: BoxConstraints.expand(height: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    imShelterButton()
-                  ],
+                  children: [imShelterButton()],
                 ),
               ),
             ],
@@ -169,75 +153,82 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget enterButton() {
     return ElevatedButton(
-        onPressed: () async {
-
-          if (!imShelter && _loginFormKey.currentState.validate()) {
-            var userLogged = await _services.userLogIn(user);
-            print(userLogged.token.toString());
-          } else if (imShelter && _loginFormKey.currentState.validate()){
-            var userLogged = await _services.userShelterLogIn(user);
-            print(userLogged.token.toString());
-          }
-        },
-
-        child: Text('Acceder', style: TextStyle(
-         fontFamily: 'Quicksand',
-          color: greenPrimary
-        ),),
+      onPressed: () async {
+        if (!imShelter && _loginFormKey.currentState.validate()) {
+          var userLogged =
+              await _services.userLogIn(user).onError((error, stackTrace) {
+            Navigator.of(context)
+                .overlay
+                .insert(OverlayEntry(builder: (BuildContext context) {
+              return WarningNotification(
+                  warningText: 'Error al iniciar sesion', duration: 2);
+            }));
+            return null;
+          });
+        } else if (imShelter && _loginFormKey.currentState.validate()) {
+          var userLogged = await _services.userShelterLogIn(user);
+          print(userLogged.token.toString());
+        }
+      },
+      child: Text(
+        'Acceder',
+        style: TextStyle(fontFamily: 'Quicksand', color: greenPrimary),
+      ),
       style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.black12),
-          shape:
-          MaterialStateProperty.all<RoundedRectangleBorder>(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0),
-              )),
+            borderRadius: BorderRadius.circular(50.0),
+          )),
           elevation: MaterialStateProperty.all(0),
-          backgroundColor:
-          MaterialStateProperty.all<Color>(Colors.white)),
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.white)),
     );
   }
 
   Widget registerButton() {
     return ElevatedButton(
-      onPressed: () {},
-      child: Text('Registrarse', style: TextStyle(
-          fontFamily: 'Quicksand',
-      ),),
-      style: ButtonStyle(
-          shape:
-          MaterialStateProperty.all<RoundedRectangleBorder>(
+        onPressed: () {},
+        child: Text(
+          'Registrarse',
+          style: TextStyle(
+            fontFamily: 'Quicksand',
+          ),
+        ),
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0),
-              )),
+            borderRadius: BorderRadius.circular(50.0),
+          )),
           elevation: MaterialStateProperty.all(0),
-          backgroundColor:
-          MaterialStateProperty.all<Color>(greenPrimary),
-    ));
+          backgroundColor: MaterialStateProperty.all<Color>(greenPrimary),
+        ));
   }
 
   Widget googleLogin() {
     return ElevatedButton(
-      onPressed: (!imShelter) ? () {
-        print('Im already here');
-      } : null,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(NicamalIcon2.google),
-          Text('oogle', style: TextStyle(fontFamily: 'Quicksand'),)
-        ],
-      ),
-      style: ButtonStyle(
-        shape:
-        MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50.0),
-            )),
-        elevation: MaterialStateProperty.all(0),
-        backgroundColor:
-        MaterialStateProperty.all<Color>(Colors.red),
-      )
-    );
+        onPressed: (!imShelter)
+            ? () {
+                print('Im already here');
+              }
+            : null,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(NicamalIcon2.google),
+            Text(
+              'oogle',
+              style: TextStyle(fontFamily: 'Quicksand'),
+            )
+          ],
+        ),
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.0),
+          )),
+          elevation: MaterialStateProperty.all(0),
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+        ));
   }
 
   Widget emailField() {
@@ -248,9 +239,9 @@ class _LoginPageState extends State<LoginPage> {
         });
       },
       validator: (email) {
-        if(email.isEmpty) {
+        if (email.isEmpty) {
           return 'Es necesario introducir un email';
-        } else if (!email.isValidEmail(email)){
+        } else if (!email.isValidEmail(email)) {
           return 'No es un email valido';
         } else {
           return null;
@@ -270,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       },
       validator: (password) {
-        if(password.isEmpty) {
+        if (password.isEmpty) {
           return 'Es necesario introducir la contraseña';
         } else {
           return null;
@@ -295,8 +286,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.black12),
-          padding: MaterialStateProperty.all(EdgeInsets.all(0))
-      ),
+          padding: MaterialStateProperty.all(EdgeInsets.all(0))),
     );
   }
 
@@ -314,8 +304,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.black12),
-          padding: MaterialStateProperty.all(EdgeInsets.all(0))
-      ),
+          padding: MaterialStateProperty.all(EdgeInsets.all(0))),
     );
   }
 
@@ -336,7 +325,7 @@ class _LoginPageState extends State<LoginPage> {
       icon: Icon(Icons.alternate_email, color: greenAccent, size: 18),
       suffixIcon: Icon(null),
       enabledBorder:
-      UnderlineInputBorder(borderSide: BorderSide(color: greenAccent)),
+          UnderlineInputBorder(borderSide: BorderSide(color: greenAccent)),
       focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: greenPrimary, width: 2)),
     );
@@ -349,28 +338,35 @@ class _LoginPageState extends State<LoginPage> {
         alignLabelWithHint: true,
         icon: Icon(Icons.lock, color: greenAccent, size: 18),
         labelStyle: TextStyle(
-            fontFamily: 'Quicksand',
-            color: greenAccent,
-            fontSize: 15
-        ),
+            fontFamily: 'Quicksand', color: greenAccent, fontSize: 15),
         hintStyle: TextStyle(
             fontFamily: 'Quicksand',
             color: Colors.blueGrey.shade300,
             fontSize: 12),
         enabledBorder:
-        UnderlineInputBorder(borderSide: BorderSide(color: greenAccent)),
+            UnderlineInputBorder(borderSide: BorderSide(color: greenAccent)),
         focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: greenPrimary, width: 2)),
-        suffixIcon: (isObscure) ? IconButton(onPressed: () {
-          setState(() {
-            isObscure = false;
-          });
-        }, icon: Icon(Icons.remove_red_eye_outlined, color: greenPrimary,)) : IconButton(
-            onPressed: () {
-              setState(() {
-                isObscure = true;
-              });
-            }, icon: Icon(Icons.remove_red_eye, color: greenPrimary,))
-    );
+        suffixIcon: (isObscure)
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    isObscure = false;
+                  });
+                },
+                icon: Icon(
+                  Icons.remove_red_eye_outlined,
+                  color: greenPrimary,
+                ))
+            : IconButton(
+                onPressed: () {
+                  setState(() {
+                    isObscure = true;
+                  });
+                },
+                icon: Icon(
+                  Icons.remove_red_eye,
+                  color: greenPrimary,
+                )));
   }
 }
