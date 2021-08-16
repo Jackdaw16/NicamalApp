@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/components/nicamal_icon2_icons.dart';
@@ -34,6 +36,22 @@ class _LoginPageState extends State<LoginPage> {
         imShelter = false;
       });
     }
+  }
+
+  void showOverlay(String error) {
+    Navigator.of(context)
+        .overlay
+        .insert(OverlayEntry(builder: (BuildContext context) {
+      if (error.contains('404')) {
+        return InfoWarning(
+            infoText: 'Email o contraseña incorrecta', duration: 2);
+      } else if (error.contains('403')) {
+        return DangerWarning(
+            dangerText: 'Tu cuenta ha sido suspendida', duration: 2);
+      } else {
+        return null;
+      }
+    }));
   }
 
   bool getImShelterState() {
@@ -155,19 +173,13 @@ class _LoginPageState extends State<LoginPage> {
     return ElevatedButton(
       onPressed: () async {
         if (!imShelter && _loginFormKey.currentState.validate()) {
-          var userLogged =
-              await _services.userLogIn(user).onError((error, stackTrace) {
-            Navigator.of(context)
-                .overlay
-                .insert(OverlayEntry(builder: (BuildContext context) {
-              return WarningNotification(
-                  warningText: 'Error al iniciar sesion', duration: 2);
-            }));
-            return null;
-          });
+          var userLogged = await _services
+              .userLogIn(user)
+              .catchError((onError) => showOverlay(onError.toString()));
         } else if (imShelter && _loginFormKey.currentState.validate()) {
-          var userLogged = await _services.userShelterLogIn(user);
-          print(userLogged.token.toString());
+          var userLogged = await _services
+              .userShelterLogIn(user)
+              .catchError((onError) => showOverlay(onError.toString()));
         }
       },
       child: Text(
