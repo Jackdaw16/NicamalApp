@@ -64,10 +64,13 @@ class _LoginPageState extends State<LoginPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: greyBackground,
-      body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 32),
+        backgroundColor: greyBackground,
+        body: Container(
+          width: double.infinity,
+          height: size.height,
+          child: SingleChildScrollView(
+              child: Padding(
+            padding: EdgeInsets.only(top: 64),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -112,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           )),
-    );
+        ));
   }
 
   Widget header() {
