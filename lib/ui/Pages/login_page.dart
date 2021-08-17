@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
   final Color greenAccent = Color.fromARGB(255, 24, 157, 139);
+  final Color greyBackground = Color.fromARGB(255, 245, 245, 245);
 
   void changeShelterLogin() {
     if (!imShelter) {
@@ -63,54 +64,54 @@ class _LoginPageState extends State<LoginPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: greyBackground,
       body: SingleChildScrollView(
-          child: Container(
-        width: double.infinity,
-        height: size.height * 0.9,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            header(),
-            SizedBox(height: 20),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                child: Column(
-                  children: [
-                    loginForm(),
-                    SizedBox(height: 30),
-                    Container(
-                      width: double.infinity,
-                      child: enterButton(),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      child: registerButton(),
-                    ),
-                    AnimatedOpacity(
-                      opacity: (!imShelter) ? 1 : 0,
-                      curve: Curves.easeInOut,
-                      duration: Duration(milliseconds: 500),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Divider(
-                          height: 0.5,
-                          thickness: 1,
-                          indent: 8,
-                          endIndent: 8,
-                          color: greenPrimary,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                header(),
+                SizedBox(height: 20),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 40),
+                    child: Column(
+                      children: [
+                        loginForm(),
+                        SizedBox(height: 30),
+                        Container(
+                          width: double.infinity,
+                          child: enterButton(),
                         ),
-                      ),
-                    ),
-                    AnimatedOpacity(
-                        opacity: (!imShelter) ? 1 : 0,
-                        curve: Curves.easeInOut,
-                        duration: Duration(milliseconds: 500),
-                        child: googleLogin())
-                  ],
-                ))
-          ],
-        ),
-      )),
+                        Container(
+                          width: double.infinity,
+                          child: registerButton(),
+                        ),
+                        AnimatedOpacity(
+                          opacity: (!imShelter) ? 1 : 0,
+                          curve: Curves.easeInOut,
+                          duration: Duration(milliseconds: 500),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Divider(
+                              height: 0.5,
+                              thickness: 1,
+                              indent: 8,
+                              endIndent: 8,
+                              color: greenPrimary,
+                            ),
+                          ),
+                        ),
+                        AnimatedOpacity(
+                            opacity: (!imShelter) ? 1 : 0,
+                            curve: Curves.easeInOut,
+                            duration: Duration(milliseconds: 500),
+                            child: googleLogin())
+                      ],
+                    ))
+              ],
+            ),
+          )),
     );
   }
 
