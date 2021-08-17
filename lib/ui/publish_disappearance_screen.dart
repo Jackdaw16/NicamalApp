@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nicamal_app/components/alert_dialogs.dart';
 import 'package:nicamal_app/io/get_image.dart';
 import 'package:nicamal_app/io/services.dart';
 import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
+import 'package:nicamal_app/components/warnings_notifications_component.dart';
 import 'package:nicamal_app/io/form_validation.dart';
 
 class PublishDisappearanceScreen extends StatefulWidget {
@@ -21,9 +21,36 @@ class _PublishDisappearanceScreenState
     extends State<PublishDisappearanceScreen> {
   String _image;
   int btnState = 0;
+
   GetImage getImage = GetImage();
   Services services = Services();
+
+  void showErrorOverlay(String error) {
+    Navigator.of(context)
+        .overlay
+        .insert(OverlayEntry(builder: (BuildContext context) {
+      return DangerWarning(dangerText: error, duration: 2);
+    }));
+  }
+
+  void showInfoOverlay(String info) {
+    Navigator.of(context)
+        .overlay
+        .insert(OverlayEntry(builder: (BuildContext context) {
+      return InfoWarning(infoText: info, duration: 2);
+    }));
+  }
+
+  void showSuccessOverlay(String message) {
+    Navigator.of(context)
+        .overlay
+        .insert(OverlayEntry(builder: (BuildContext context) {
+      return SuccessWarning(successText: message, duration: 2);
+    }));
+  }
+
   DisappearanceDetail disappearance = DisappearanceDetail();
+
   final _formKey = GlobalKey<FormState>();
   final Color greyBackground = Color.fromARGB(255, 245, 245, 245);
   final Color greenPrimary = Color.fromARGB(255, 105, 198, 133);
@@ -40,18 +67,33 @@ class _PublishDisappearanceScreenState
               Stack(
                 children: [
                   if (_image == null)
-                    Container(
-                      width: double.infinity,
-                      height: height * 0.5,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('assets/main.webp'),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(100))),
-                      child: GestureDetector(
-                        onTap: () {},
-                      ),
+                    Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: height * 0.5,
+                          decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(100))),
+                          child: GestureDetector(
+                            onTap: () async {
+                              PickedFile image =
+                                  await getImage.getImageFromCamera();
+                              setState(() {
+                                _image = image.path;
+                                disappearance.image = _image;
+                              });
+                            },
+                          ),
+                        ),
+                        Positioned.fill(
+                            child: Align(
+                          alignment: Alignment.center,
+                          child:
+                              Icon(Icons.image, color: Colors.white, size: 120),
+                        ))
+                      ],
                     ),
                   if (_image != null)
                     Container(
@@ -110,45 +152,71 @@ class _PublishDisappearanceScreenState
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Color.fromRGBO(254, 254, 254, 1),
-                              child: IconButton(
-                                  onPressed: () async {
-                                    PickedFile image =
-                                        await getImage.getImageFromGallery();
-                                    setState(() {
-                                      _image = image.path;
-                                      disappearance.image = _image;
-                                    });
-                                    print(_image);
-                                  },
-                                  icon: Icon(
-                                    Icons.photo_library,
-                                    color: greenAccent,
-                                  )),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            CircleAvatar(
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.16),
+                                      spreadRadius: 5,
+                                      blurRadius: 6,
+                                      offset: Offset(0, 3),
+                                    )
+                                  ]),
+                              child: CircleAvatar(
                                 radius: 25,
                                 backgroundColor:
                                     Color.fromRGBO(254, 254, 254, 1),
                                 child: IconButton(
                                     onPressed: () async {
                                       PickedFile image =
-                                          await getImage.getImageFromCamera();
+                                          await getImage.getImageFromGallery();
                                       setState(() {
                                         _image = image.path;
                                         disappearance.image = _image;
                                       });
                                       print(_image);
                                     },
+                                    splashRadius: 29,
                                     icon: Icon(
-                                      Icons.camera_alt,
+                                      Icons.photo_library,
                                       color: greenAccent,
-                                    ))),
+                                    )),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.16),
+                                        spreadRadius: 5,
+                                        blurRadius: 6,
+                                        offset: Offset(0, 3),
+                                      )
+                                    ]),
+                                child: CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor:
+                                        Color.fromRGBO(254, 254, 254, 1),
+                                    child: IconButton(
+                                        onPressed: () async {
+                                          PickedFile image = await getImage
+                                              .getImageFromCamera();
+                                          setState(() {
+                                            _image = image.path;
+                                            disappearance.image = _image;
+                                          });
+                                          print(_image);
+                                        },
+                                        splashRadius: 29,
+                                        icon: Icon(
+                                          Icons.camera_alt,
+                                          color: greenAccent,
+                                        )))),
                           ],
                         ),
                       )
@@ -186,13 +254,13 @@ class _PublishDisappearanceScreenState
                                 },
                                 validator: (text) {
                                   if (text.isEmpty) {
-                                    return 'This field is required';
+                                    return 'Este campo es obligatorio';
                                   } else {
                                     return null;
                                   }
                                 },
                                 decoration: formFieldStyle(
-                                    'Name*', 'Name of your animal'),
+                                    'Nombre*', 'Nombre del animal'),
                                 maxLines: 1,
                                 autocorrect: false,
                               )),
@@ -207,14 +275,14 @@ class _PublishDisappearanceScreenState
                                 },
                                 validator: (text) {
                                   if (text.isEmpty) {
-                                    return 'This field is required';
+                                    return 'Este campo es obligatorio';
                                   } else {
                                     return null;
                                   }
                                 },
                                 decoration: formFieldStyle(
-                                    'Animal description*',
-                                    'Little cat with grey hair...'),
+                                    'Descripción del animal*',
+                                    'Un gato pequeño con pelaje blanco...'),
                                 maxLines: null,
                                 autocorrect: false,
                               )),
@@ -227,12 +295,13 @@ class _PublishDisappearanceScreenState
                                 },
                                 validator: (text) {
                                   if (text.isEmpty) {
-                                    return 'This field is required';
+                                    return 'Este campo es obligatorio';
                                   } else {
                                     return null;
                                   }
                                 },
-                                decoration: formFieldStyle('Last Seen*',
+                                decoration: formFieldStyle(
+                                    'Visto por ultima vez*',
                                     'Fue visto por ultima vez en la plaza...'),
                                 maxLines: null,
                                 autocorrect: false,
@@ -246,12 +315,12 @@ class _PublishDisappearanceScreenState
                                 },
                                 validator: (text) {
                                   if (text.isEmpty) {
-                                    return 'This field is required';
+                                    return 'Este campo es obligatorio';
                                   } else {
                                     return null;
                                   }
                                 },
-                                decoration: formFieldStyle('Province*', ''),
+                                decoration: formFieldStyle('Provincia*', ''),
                                 maxLines: 1,
                                 autocorrect: false,
                               )),
@@ -266,13 +335,13 @@ class _PublishDisappearanceScreenState
                                 },
                                 validator: (text) {
                                   if (text.isEmpty) {
-                                    return 'This field is required';
+                                    return 'Este campo es obligatorio';
                                   } else {
                                     return null;
                                   }
                                 },
                                 decoration:
-                                    formFieldStyle('Name of owner*', ''),
+                                    formFieldStyle('Nombre del dueño*', ''),
                                 maxLines: 1,
                                 autocorrect: false,
                               )),
@@ -287,15 +356,15 @@ class _PublishDisappearanceScreenState
                                 },
                                 validator: (text) {
                                   if (!text.isValidPhone(text)) {
-                                    return 'Not valid Phone';
+                                    return 'El número de telefono no es valido';
                                   } else if (text.isEmpty) {
-                                    return 'This field is required';
+                                    return 'Este campo es obligatorio';
                                   } else {
                                     return null;
                                   }
                                 },
-                                decoration: formFieldStyle(
-                                    'Telephone for contact*', ''),
+                                decoration:
+                                    formFieldStyle('Telefono de contacto*', ''),
                                 maxLines: 1,
                                 autocorrect: false,
                               )),
@@ -305,69 +374,49 @@ class _PublishDisappearanceScreenState
               ),
               Padding(
                 padding: EdgeInsets.only(left: 32, right: 32, bottom: 16),
-                child: Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState.validate() &&
-                            _image != null) {
-                          setState(() {
-                            btnState = 1;
-                          });
-                          await services
-                              .postDisappearance(disappearance)
-                              .then((value) {
-                            if (value != null) {
-                              setState(() {
-                                btnState = 0;
-                                var succesDialog = SuccessPublish(
-                                  title: 'Ha sido publicado',
-                                  content: 'Esperemos que lo encuentre pronto.',
-                                );
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        succesDialog);
-                              });
-                            }
-                          }).onError((error, stackTrace) {
-                            setState(() {
-                              btnState = 0;
-                            });
-                            var errorDialog = ErrorPublish(
-                              title: 'Error inesperado',
-                              content:
-                              'Comprueba tu conexión a internet y vuelve a intentarlo.',
-                            );
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) => errorDialog);
-                          });
-                        } else {
-                          var alert = ImageNotDefineAlert(
-                              title: 'Elige una imagen',
-                              content:
-                                  'Se requiere una imagen para más información.');
-
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext build) => alert);
-                        }
-                      },
-                      child: buttonStyle(),
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          )),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(greenPrimary))),
-                ),
+                child: Container(width: double.infinity, child: inputButton()),
               )
             ],
           ),
         ));
+  }
+
+  Widget inputButton() {
+    return ElevatedButton(
+        onPressed: () async {
+          if (_formKey.currentState.validate() && _image != null) {
+            setState(() {
+              btnState = 1;
+            });
+            await services.postDisappearance(disappearance).then((value) {
+              if (value != null) {
+                setState(() {
+                  btnState = 0;
+                  showSuccessOverlay(
+                      'Se ha publicado la desaparición, Esperamos que lo encuentre pronto');
+
+                  Navigator.pop(context, true);
+                });
+              }
+            }).onError((error, stackTrace) {
+              setState(() {
+                btnState = 0;
+              });
+              showErrorOverlay(
+                  'Error inesperado\n\nCompruebe su conexión a internet y vuelva a intentarlo');
+            });
+          } else {
+            showInfoOverlay(
+                'Se requiere una imagen para tener más información acerca de la desaparición');
+          }
+        },
+        child: buttonStyle(),
+        style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            )),
+            backgroundColor: MaterialStateProperty.all<Color>(greenPrimary)));
   }
 
   InputDecoration formFieldStyle(String labelText, String hintText) {
