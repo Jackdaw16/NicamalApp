@@ -44,20 +44,24 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       padding: EdgeInsets.only(left: 16, right: 8),
                       child: SizedBox(
                           width: size.width * 0.6,
-                          height: 180,
+                          height: size.height * 0.3,
                           child: imageGrid(snapshot.data)),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: (imageSelected == null)
-                            ? Colors.grey
-                            : Colors.white,
-                        backgroundImage: (imageSelected == null)
-                            ? null
-                            : NetworkImage(imageSelected),
-                      ),
+                      child: AspectRatio(
+                        aspectRatio: 1.2,
+                        child: Container(
+                          child: CircleAvatar(
+                            backgroundColor: (imageSelected == null)
+                                ? Colors.grey
+                                : Colors.white,
+                            backgroundImage: (imageSelected == null)
+                                ? null
+                                : NetworkImage(imageSelected),
+                          ),
+                        )
+                      )
                     ),
                   ],
                 ),
@@ -105,9 +109,11 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
               ];
             }
 
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: children,
+            return SingleChildScrollView(
+              child:  Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: children,
+              )
             );
           },
         ));
@@ -198,7 +204,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
             maxCrossAxisExtent: 60,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
-            childAspectRatio: 1.1),
+            childAspectRatio: 1.15),
         itemCount: images.length,
         itemBuilder: (context, index) => Container(
             height: 20,
