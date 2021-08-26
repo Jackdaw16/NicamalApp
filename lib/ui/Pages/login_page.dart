@@ -7,6 +7,7 @@ import 'package:nicamal_app/components/warnings_notifications_component.dart';
 import 'package:nicamal_app/io/services.dart';
 import 'package:nicamal_app/models/viewModels/user_view_model.dart';
 import 'package:nicamal_app/io/form_validation.dart';
+import 'package:nicamal_app/ui/user_register_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -203,7 +204,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget registerButton() {
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => UserRegisterScreen()));
+        },
         child: Text(
           'Registrarse',
           style: TextStyle(

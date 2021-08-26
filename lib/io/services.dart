@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:nicamal_app/io/iservices.dart';
+import 'package:nicamal_app/models/Images.dart';
 import 'package:nicamal_app/models/Province.dart';
 import 'package:nicamal_app/models/viewModels/disappearance_view_model.dart';
 import 'package:nicamal_app/models/viewModels/publication_view_model.dart';
@@ -417,6 +418,30 @@ class Services extends IServices {
 
       return UserShelterLoggedIn.fromJson(
           jsonDecode(json.encode(response.data)));
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<List<Images>> getImages() async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "image";
+
+    try {
+      final response = await client.get(uriParsed).timeout(Duration(seconds: 5),
+          onTimeout: () {
+        throw TimeoutException(
+            'The connection has timed out, check your internet connection and try again!');
+      });
+
+      Iterable iterable = json.decode(json.encode(response.data));
+      List<Images> images =
+          iterable.map((model) => Images.fromJson(model)).toList();
+
+      return images;
     } on SocketException {
       throw SocketException('You are not connected to internet');
     } catch (e) {
