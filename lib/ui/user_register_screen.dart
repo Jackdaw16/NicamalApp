@@ -26,6 +26,14 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   bool isObscure = true;
   bool acceptTermAndConditions = false;
 
+  bool safeArea(double padding) {
+    if (padding > 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -38,39 +46,55 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
             List<Widget> children;
             if (snapshot.hasData) {
               children = <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 16, bottom: 16),
+                  child: Container(
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        backButton(),
+                      ],
+                    ),
+                  ),
+                ),
                 Row(
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 16, right: 8),
                       child: SizedBox(
                           width: size.width * 0.6,
-                          height: size.height * 0.3,
+                          height: size.width * 0.3,
                           child: imageGrid(snapshot.data)),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
+                    Container(
+                      width: size.width * 0.3,
+                      height: size.width * 0.3,
                       child: AspectRatio(
-                        aspectRatio: 1.2,
+                        aspectRatio: 16 / 2,
                         child: Container(
-                          child: CircleAvatar(
-                            backgroundColor: (imageSelected == null)
-                                ? Colors.grey
-                                : Colors.white,
-                            backgroundImage: (imageSelected == null)
-                                ? null
-                                : NetworkImage(imageSelected),
+                          child: ClipOval(
+                            child: (imageSelected != null)
+                                ? Image.network(
+                                    imageSelected,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Container(
+                                    width: 50,
+                                    height: 50,
+                                    color: Colors.grey,
+                                  ),
                           ),
-                        )
-                      )
-                    ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   child: registerForm(size),
                 ),
                 Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Container(
                       width: double.infinity,
                       child: registerButton(),
@@ -110,10 +134,10 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
             }
 
             return SingleChildScrollView(
-              child:  Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: children,
-              )
+              ),
             );
           },
         ));
@@ -200,16 +224,13 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
 
   Widget imageGrid(List<Images> images) {
     return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 60,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            childAspectRatio: 1.15),
+        shrinkWrap: true,
+        padding: EdgeInsets.all(0),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4, crossAxisSpacing: 8, mainAxisSpacing: 8),
         itemCount: images.length,
         itemBuilder: (context, index) => Container(
-            height: 20,
-            width: 20,
-            child: GestureDetector(
+                child: GestureDetector(
               onTap: () {
                 setState(() {
                   imageSelected = images[index].image;
@@ -337,5 +358,38 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                   Icons.remove_red_eye,
                   color: greenPrimary,
                 )));
+  }
+
+  Widget backButton() {
+    return SafeArea(
+        top: safeArea(MediaQuery.of(context).viewPadding.top),
+        bottom: safeArea(0),
+        child: Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.16),
+                    spreadRadius: 5,
+                    blurRadius: 6,
+                    offset: Offset(0, 3),
+                  )
+                ]),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  splashRadius: 25,
+                  icon: Icon(Icons.arrow_back),
+                  color: Colors.green),
+            ),
+          ),
+        ));
   }
 }
