@@ -97,7 +97,7 @@ class UserResponseWhenLoggedIn {
     return UserResponseWhenLoggedIn(
         id: json['id'],
         name: json['name'],
-        surName: json['surName'],
+        surName: json['surNames'],
         email: json['email'],
         image: json['image'],
         telephoneContact: json['telephoneContact'],
@@ -147,7 +147,7 @@ class UserRegister {
   factory UserRegister.fromJson(Map<String, dynamic> json) {
     return UserRegister(
         name: json['name'],
-        surName: json['surName'],
+        surName: json['surNames'],
         email: json['email'],
         image: json['image'],
         password: json['password'],
@@ -156,4 +156,16 @@ class UserRegister {
         province: json['province'],
         address: json['address']);
   }
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'surNames': surName,
+        'email': email,
+        'image': image,
+        'password': password,
+        'telephoneContact': telephoneContact,
+        'country': country,
+        'province': province,
+        'address': address
+      };
 }

@@ -19,9 +19,14 @@ extension FormValidation on String {
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     return passwordRegExp.hasMatch(password);
   }
-  
+
   bool isValidEmail(String email) {
-    final emailRegExp = new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    final emailRegExp = new RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     return emailRegExp.hasMatch(email);
+  }
+
+  bool isTheSamePassword(String password, String comparePassword) {
+    return identical(password, comparePassword);
   }
 }

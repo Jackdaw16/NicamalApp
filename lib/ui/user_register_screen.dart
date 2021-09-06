@@ -3,9 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nicamal_app/components/custom_progress_indicator_component.dart';
+import 'package:nicamal_app/components/return_button.dart';
 import 'package:nicamal_app/components/warning_messagge.dart';
+import 'package:nicamal_app/components/warnings_notifications_component.dart';
+import 'package:nicamal_app/io/form_validation.dart';
 import 'package:nicamal_app/io/services.dart';
 import 'package:nicamal_app/models/Images.dart';
+import 'package:nicamal_app/models/viewModels/user_view_model.dart';
 
 class UserRegisterScreen extends StatefulWidget {
   const UserRegisterScreen({Key key}) : super(key: key);
@@ -22,16 +26,45 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   final _registerFormKey = GlobalKey<FormState>();
   final Services services = Services();
 
+  UserRegister user = UserRegister();
+
   var imageSelected;
   bool isObscure = true;
   bool acceptTermAndConditions = false;
 
-  bool safeArea(double padding) {
-    if (padding > 0) {
-      return true;
+  void showErrorOverlay(String message) {
+    if (message.contains('400')) {
+      Navigator.of(context)
+          .overlay
+          .insert(OverlayEntry(builder: (BuildContext context) {
+        return DangerWarning(dangerText: 'Este usuario ya existe', duration: 2);
+      }));
+    } else if (message.contains('500')) {
+      Navigator.of(context)
+          .overlay
+          .insert(OverlayEntry(builder: (BuildContext context) {
+        return DangerWarning(
+            dangerText:
+                'Error inesperado\n\nCompruebe su conexión a internet y vuelva a intentarlo',
+            duration: 2);
+      }));
     }
+  }
 
-    return false;
+  void showInfoOverlay(String message) {
+    Navigator.of(context)
+        .overlay
+        .insert(OverlayEntry(builder: (BuildContext context) {
+      return InfoWarning(infoText: message, duration: 2);
+    }));
+  }
+
+  Future showSuccessOverlay(String message) async {
+    await Navigator.of(context)
+        .overlay
+        .insert(OverlayEntry(builder: (BuildContext context) {
+      return SuccessWarning(successText: message, duration: 3);
+    }));
   }
 
   @override
@@ -52,7 +85,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                     width: double.infinity,
                     child: Row(
                       children: [
-                        backButton(),
+                        backButton(context),
                       ],
                     ),
                   ),
@@ -69,8 +102,8 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                     Container(
                       width: size.width * 0.3,
                       height: size.width * 0.3,
-                      child: AspectRatio(
-                        aspectRatio: 16 / 2,
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
                         child: Container(
                           child: ClipOval(
                             child: (imageSelected != null)
@@ -94,7 +127,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                   child: registerForm(size),
                 ),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: Container(
                       width: double.infinity,
                       child: registerButton(),
@@ -165,29 +198,21 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
               normalInputField('Nombre*'),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
-                child: normalInputField('Apellidos*'),
+                child: normalInputField('Apellidos'),
               ),
               emailField(),
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: size.width * 0.4,
-                        child: passwordField(),
-                      ),
-                      SizedBox(
-                        width: size.width * 0.4,
-                        child: passwordField(),
-                      ),
-                    ],
-                  )),
-              telephoneField(),
+                  child: passwordField()),
+              repeatPasswordField(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: telephoneField(),
+              ),
+              normalInputField('Provincia*'),
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
-                  child: normalInputField('Provincia')),
-              normalInputField('Dirección'),
+                  child: normalInputField('Dirección*')),
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: Row(
@@ -234,6 +259,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
               onTap: () {
                 setState(() {
                   imageSelected = images[index].image;
+                  user.image = imageSelected;
                 });
               },
               child: Image.network(images[index].image),
@@ -242,7 +268,24 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
 
   Widget registerButton() {
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: () async {
+          if (_registerFormKey.currentState.validate() &&
+              acceptTermAndConditions &&
+              imageSelected != null) {
+            await services.userRegister(user).then((value) {
+              showSuccessOverlay(
+                      'Se ha registrado con exito\nCompruebe su correo para verificar su cuenta')
+                  .then((value) => Navigator.pop(context, true));
+            }).onError((error, stackTrace) {
+              showErrorOverlay(error.toString());
+            });
+          } else if (imageSelected == null) {
+            showInfoOverlay('Es necesario elegir una imagen para tu perfil');
+          } else if (!acceptTermAndConditions) {
+            showInfoOverlay(
+                'Es necesario haber leido y aceptar las condiciones de uso de la aplicación');
+          }
+        },
         child: Text(
           'Registrarse',
           style: TextStyle(
@@ -261,8 +304,31 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
 
   Widget normalInputField(String inputHintText) {
     return TextFormField(
-      onChanged: null,
-      validator: null,
+      onChanged: (value) {
+        switch (inputHintText) {
+          case 'Nombre*':
+            user.name = value;
+            break;
+          case 'Apellidos':
+            user.surName = value;
+            break;
+          case 'Provincia*':
+            user.province = value;
+            break;
+          case 'Dirección*':
+            user.address = value;
+            break;
+        }
+      },
+      validator: (value) {
+        if (inputHintText == 'Apellidos') {
+          return null;
+        } else if (value.isEmpty) {
+          return 'Este campo es obligatorio';
+        } else {
+          return null;
+        }
+      },
       decoration: formFieldStyle(inputHintText),
       maxLines: 1,
       autocorrect: false,
@@ -271,8 +337,16 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
 
   Widget emailField() {
     return TextFormField(
-      onChanged: null,
-      validator: null,
+      onChanged: (email) => user.email = email,
+      validator: (email) {
+        if (email.isEmpty) {
+          return 'Este campo es obligatorio';
+        } else if (!email.isValidEmail(email)) {
+          return 'El email no es valido';
+        } else {
+          return null;
+        }
+      },
       decoration: formFieldStyle('Email*'),
       maxLines: 1,
       autocorrect: false,
@@ -282,8 +356,16 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
 
   Widget telephoneField() {
     return TextFormField(
-      onChanged: null,
-      validator: null,
+      onChanged: (telephone) => user.telephoneContact = telephone,
+      validator: (telephone) {
+        if (telephone.isEmpty) {
+          return 'Este campo es obligatorio';
+        } else if (!telephone.isValidPhone(telephone)) {
+          return 'El telefono ingresado no es valido';
+        } else {
+          return null;
+        }
+      },
       decoration: formFieldStyle('Teléfono'),
       maxLines: 1,
       autocorrect: false,
@@ -293,9 +375,33 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
 
   Widget passwordField() {
     return TextFormField(
-      onChanged: null,
-      validator: null,
-      decoration: passwordFormFieldStyle('Contraseña'),
+      onChanged: (password) => user.password = password,
+      validator: (password) {
+        if (password.isEmpty) {
+          return 'Este campo es obligatorio';
+        } else {
+          return null;
+        }
+      },
+      decoration: passwordFormFieldStyle('Contraseña*'),
+      obscureText: isObscure,
+    );
+  }
+
+  Widget repeatPasswordField() {
+    return TextFormField(
+      onChanged: (password) => user.password = password,
+      validator: (passwordForCompare) {
+        if (passwordForCompare.isEmpty) {
+          return 'Este campo es obligatorio';
+        } else if (!passwordForCompare.isTheSamePassword(
+            user.password.toString(), passwordForCompare)) {
+          return 'Las contraseñas no coinciden';
+        } else {
+          return null;
+        }
+      },
+      decoration: passwordFormFieldStyle('Repite contraseña*'),
       obscureText: isObscure,
     );
   }
@@ -358,38 +464,5 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                   Icons.remove_red_eye,
                   color: greenPrimary,
                 )));
-  }
-
-  Widget backButton() {
-    return SafeArea(
-        top: safeArea(MediaQuery.of(context).viewPadding.top),
-        bottom: safeArea(0),
-        child: Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Container(
-            height: 40,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.16),
-                    spreadRadius: 5,
-                    blurRadius: 6,
-                    offset: Offset(0, 3),
-                  )
-                ]),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  splashRadius: 25,
-                  icon: Icon(Icons.arrow_back),
-                  color: Colors.green),
-            ),
-          ),
-        ));
   }
 }

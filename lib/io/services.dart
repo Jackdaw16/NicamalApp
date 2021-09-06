@@ -426,6 +426,28 @@ class Services extends IServices {
   }
 
   @override
+  Future<UserResponseWhenLoggedIn> userRegister(UserRegister user) async {
+    var client = Dio();
+    var uriParsed = urlDevServer + "user";
+
+    try {
+      final response = await client
+          .post(uriParsed, data: user.toJson())
+          .timeout(Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException(
+            'The connection has timed out, check your internet connection and try again!');
+      });
+
+      return UserResponseWhenLoggedIn.fromJson(
+          jsonDecode(json.encode(response.data)));
+    } on SocketException {
+      throw SocketException('You are not connected to internet');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
   Future<List<Images>> getImages() async {
     var client = Dio();
     var uriParsed = urlDevServer + "image";

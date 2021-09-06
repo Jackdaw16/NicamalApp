@@ -39,4 +39,5 @@ abstract class IServices {
 
   /*User calls*/
   Future<UserLoggedIn> userLogIn(UserLogIn user);
+  Future<UserResponseWhenLoggedIn> userRegister(UserRegister user);
 }
